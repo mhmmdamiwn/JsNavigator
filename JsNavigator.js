@@ -12,7 +12,7 @@ const rl = readline.createInterface({
 });
 
 // An async function that orchestrates the entire CodeCast process
-async function CodeCast() {
+async function JsNavigator() {
   // Getting user input for the files that need to be processed
   const userImport = await FindHowUserImports(rl);
   const userStartFile = await FindUserStartFile(rl);
@@ -24,4 +24,4 @@ async function CodeCast() {
   await showFileInBrowser(dependencyOrder);
 
 }
-module.exports = CodeCast;
+module.exports = JsNavigator;

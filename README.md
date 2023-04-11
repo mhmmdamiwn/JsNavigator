@@ -4,15 +4,15 @@ JsNavigator is an npm package that provides a graphical user interface to view y
 # Installation
 To use JsNavigator, install it using npm:
 ```
-npm install jsnavigator
+npm install js-navigator
 ```
 # Usage
 1.Create a new JavaScript file.
 2.Import JsNavigator using require or import:
 ```
-const JsNavigator = require("jsnavigator"); // using require
+const JsNavigator = require("js-navigator"); // using require
 // or
-import * as JsNavigator from "jsnavigator"; // using import
+import * as JsNavigator from "js-navigator"; // using import
 ```
 3. Use the JsNavigator function to launch the GUI:
 ```

@@ -1,21 +1,21 @@
 {
-  "name": "code-cast",
+  "name": "js-navigator",
   "version": "1.0.0",
   "description": "watch your project files and their dependencies",
-  "main": "CodeCast.js",
+  "main": "JsNavigator.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mhmmdamiwn/CodeCast.git"
+    "url": "git+https://github.com/mhmmdamiwn/JsNavigator.git"
   },
   "author": "Amin Esmaili",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mhmmdamiwn/CodeCast/issues"
+    "url": "https://github.com/mhmmdamiwn/JsNavigator/issues"
   },
-  "homepage": "https://github.com/mhmmdamiwn/CodeCast#readme",
+  "homepage": "https://github.com/mhmmdamiwn/JsNavigator#readme",
   "dependencies": {
     "chalk": "^4.1.2",
     "open": "^8.4.0"
