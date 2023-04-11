@@ -1,0 +1,23 @@
+{
+  "name": "code-cast",
+  "version": "1.0.0",
+  "description": "watch your project files and their dependencies",
+  "main": "CodeCast.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mhmmdamiwn/CodeCast.git"
+  },
+  "author": "Amin Esmaili",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mhmmdamiwn/CodeCast/issues"
+  },
+  "homepage": "https://github.com/mhmmdamiwn/CodeCast#readme",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "open": "^8.4.0"
+  }
+}
