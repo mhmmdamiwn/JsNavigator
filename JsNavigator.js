@@ -11,7 +11,7 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-// An async function that orchestrates the entire CodeCast process
+// An async function that orchestrates the entire JsNavigator process
 async function JsNavigator() {
   // Getting user input for the files that need to be processed
   const userImport = await FindHowUserImports(rl);
