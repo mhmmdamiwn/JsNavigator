@@ -4,7 +4,7 @@
   "description": "watch your project files and their dependencies",
   "main": "JsNavigator.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite"
   },
   "repository": {
     "type": "git",
@@ -17,7 +17,16 @@
   },
   "homepage": "https://github.com/mhmmdamiwn/JsNavigator#readme",
   "dependencies": {
+    "autoprefixer": "^10.4.14",
     "chalk": "^4.1.2",
-    "open": "^8.4.0"
+    "open": "^8.4.0",
+    "postcss": "^8.4.24",
+    "preact": "^10.15.1",
+    "tailwindcss": "^3.3.2",
+    "vis-network": "^9.1.6"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.5.0",
+    "vite": "^4.3.9"
   }
 }
