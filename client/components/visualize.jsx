@@ -94,7 +94,7 @@ function Visualize() {
           parentCentralization: false,
           direction: "LR",
           shakeTowards: "roots",
-          fixedHierarchy: false,
+          // fixedHierarchy: false,
         },
       },
     };
@@ -121,7 +121,7 @@ function Visualize() {
     network.on("selectNode", function (event) {
       var selectedNodeId = event.nodes[0];
       var selectedNode = network.body.data.nodes.get(selectedNodeId);
-      console.log(selectedNode);
+
       var fileURL = selectedNode.id;
       const url = `${fileURL}`;
       const currentDirectory = window.location.href

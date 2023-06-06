@@ -19,9 +19,12 @@
   "dependencies": {
     "autoprefixer": "^10.4.14",
     "chalk": "^4.1.2",
+    "clsx": "^1.2.1",
     "open": "^8.4.0",
     "postcss": "^8.4.24",
     "preact": "^10.15.1",
+    "react-icons": "^4.9.0",
+    "tailwind-merge": "^1.13.0",
     "tailwindcss": "^3.3.2",
     "vis-network": "^9.1.6"
   },
