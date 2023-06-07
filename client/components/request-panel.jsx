@@ -287,6 +287,15 @@ function RequestPanel() {
           open ? "" : "-mr-[100%]"
         )}
       >
+        <div className="flex w-full border-white/10">
+          <button
+            className="p-1 hover:bg-white/25 rounded"
+            onClick={() => setOpen(false)}
+          >
+            <Icons.X className="text-[21px] text-white" />
+          </button>
+        </div>
+
         <form
           onSubmit={async (e) => {
             e.preventDefault();
@@ -301,7 +310,7 @@ function RequestPanel() {
 
             setLoadingReq(false);
           }}
-          className="flex items-center justify-center relative gap-4 z-[10]"
+          className="flex items-center justify-center mt-4 relative gap-4 z-[10]"
         >
           <RequestInput
             url={request?.url}

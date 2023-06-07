@@ -1,9 +1,10 @@
-import { LuCheck, LuChevronDown, LuTrash2 } from "react-icons/lu";
+import { LuCheck, LuChevronDown, LuTrash2, LuX } from "react-icons/lu";
 import { CgSpinner } from "react-icons/cg";
 
 export const Icons = {
   ChevronDown: LuChevronDown,
   TrashCan: LuTrash2,
   Check: LuCheck,
+  X: LuX,
   Spinner: CgSpinner,
 };

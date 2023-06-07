@@ -56,6 +56,14 @@ function RequestHeaders({ focus, setFocus, headers, changeRequest }) {
                       }}
                       className="text-[12px] text-white w-[50%] p-2 outline-none bg-neutral-800"
                       value={value}
+                      onKeyUp={(e) => {
+                        if (key !== "key" || e.key !== "Enter") return;
+
+                        setFocus({
+                          idx: index,
+                          key: "value",
+                        });
+                      }}
                       onChange={(e) => {
                         changeRequest({
                           type: "changeHeader",
