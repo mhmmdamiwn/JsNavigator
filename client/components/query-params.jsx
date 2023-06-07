@@ -1,5 +1,6 @@
 import { cn } from "../helpers/cn";
 import { Icons } from "./icons";
+import { memo } from "preact/compat";
 
 function QueryParams({ queries, changeRequest, focus, setFocus }) {
   return (
@@ -129,4 +130,4 @@ function QueryParams({ queries, changeRequest, focus, setFocus }) {
   );
 }
 
-export default QueryParams;
+export default memo(QueryParams);

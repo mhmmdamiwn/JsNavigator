@@ -5,6 +5,7 @@ import RequestInput from "./request-input";
 import { Icons } from "./icons";
 import QueryParams from "./query-params";
 import RequestHeaders from "./request-headers";
+import { TabContent, TabRoot, TabTrigger, TabTriggerWrapper } from "./ui/tabs";
 
 function RequestPanel() {
   const [focus, setFocus] = useState({
@@ -246,6 +247,29 @@ function RequestPanel() {
     if (!open) document.body.classList.remove("overflow-hidden");
   }, [open]);
 
+  const tabs = [
+    {
+      title: "Params",
+      Component: QueryParams,
+      props: {
+        queries: request?.queries,
+        changeRequest: changeRequest,
+        focus: focus,
+        setFocus: setFocus,
+      },
+    },
+    {
+      title: "Headers",
+      Component: RequestHeaders,
+      props: {
+        headers: request?.headers,
+        changeRequest: changeRequest,
+        focus: focus,
+        setFocus: setFocus,
+      },
+    },
+  ];
+
   return (
     <>
       <button
@@ -312,19 +336,21 @@ function RequestPanel() {
           </button>
         </form>
 
-        {/* <QueryParams
-          queries={request?.queries}
-          changeRequest={changeRequest}
-          focus={focus}
-          setFocus={setFocus}
-        /> */}
+        <TabRoot defaultTab={tabs[0]?.title} className="mt-3">
+          <TabTriggerWrapper>
+            {tabs.map(({ title }) => (
+              <TabTrigger tabIndex={title}>{title}</TabTrigger>
+            ))}
+          </TabTriggerWrapper>
 
-        <RequestHeaders
-          headers={request?.headers}
-          changeRequest={changeRequest}
-          focus={focus}
-          setFocus={setFocus}
-        />
+          <div>
+            {tabs?.map(({ Component, props, title }) => (
+              <TabContent tabIndex={title}>
+                <Component {...props} />
+              </TabContent>
+            ))}
+          </div>
+        </TabRoot>
       </div>
 
       <div

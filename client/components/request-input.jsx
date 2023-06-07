@@ -28,7 +28,6 @@ const RequestInput = ({ method, setMethod, url, setUrl }) => {
   const methodInputContainer = useRef(null);
 
   useEffect(() => {
-    console.log(method);
     if (method === "POST") return setMethodColor(methods["POST"].color);
     if (method === "GET") return setMethodColor(methods["GET"].color);
     if (method === "PUT") return setMethodColor(methods["PUT"].color);

@@ -126,6 +126,21 @@ function RequestHeaders({ focus, setFocus, headers, changeRequest }) {
           />
         </div>
       </div>
+
+      {(() => {
+        const headersObject = {};
+
+        headers.forEach(({ key, value, disabled }) => {
+          if (disabled) return;
+          headersObject[key] = value;
+        });
+
+        return (
+          <div className="text-white w-full min-h-[100px] bg-neutral-800 whitespace-pre border border-white/10 rounded mt-2 px-2 py-1 text-[12px]">
+            {JSON.stringify(headersObject, null, 2)}
+          </div>
+        );
+      })()}
     </>
   );
 }
