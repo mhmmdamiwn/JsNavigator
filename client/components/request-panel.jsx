@@ -4,6 +4,7 @@ import { cn } from "../helpers/cn";
 import RequestInput from "./request-input";
 import { Icons } from "./icons";
 import QueryParams from "./query-params";
+import RequestHeaders from "./request-headers";
 
 function RequestPanel() {
   const [focus, setFocus] = useState({
@@ -176,6 +177,52 @@ function RequestPanel() {
             url: url.substring(0, q_idx + 1) + params_string,
           };
         }
+        case "changeHeader": {
+          const clone = structuredClone(state?.headers);
+
+          clone[action?.payload?.idx][action?.payload?.property] =
+            action.payload.value;
+
+          return {
+            ...state,
+            headers: clone,
+          };
+        }
+        case "createHeader": {
+          const new_query = {
+            key: "",
+            value: "",
+            disabled: false,
+          };
+
+          const clone = [
+            ...structuredClone(state?.headers),
+            {
+              ...new_query,
+              [action.payload.key]: action.payload.value,
+            },
+          ];
+
+          setFocus({
+            idx: clone.length - 1,
+            key: action.payload.key,
+          });
+
+          return {
+            ...state,
+            headers: clone,
+          };
+        }
+        case "removeHeader": {
+          const headers = state.headers.filter(
+            (_, idx) => idx !== action.payload
+          );
+
+          return {
+            ...state,
+            headers,
+          };
+        }
         default: {
           return state;
         }
@@ -183,7 +230,7 @@ function RequestPanel() {
     },
     {
       url: "http://localhost:3000",
-      headers: {},
+      headers: [],
       queries: [],
       method: "",
     }
@@ -265,8 +312,15 @@ function RequestPanel() {
           </button>
         </form>
 
-        <QueryParams
+        {/* <QueryParams
           queries={request?.queries}
+          changeRequest={changeRequest}
+          focus={focus}
+          setFocus={setFocus}
+        /> */}
+
+        <RequestHeaders
+          headers={request?.headers}
           changeRequest={changeRequest}
           focus={focus}
           setFocus={setFocus}

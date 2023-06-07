@@ -115,6 +115,7 @@ function Visualize() {
       network.body.data.edges.update({
         id: backendEdges[i],
         color: "#AF8FDE",
+        width: 3,
       });
     }
 
