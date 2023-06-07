@@ -273,12 +273,12 @@ function RequestPanel() {
   return (
     <>
       <button
-        className="fixed top-0 right-0"
+        className="fixed top-4 transition-colors right-4 p-1 rounded hover:bg-white/25"
         onClick={() => {
           setOpen(true);
         }}
       >
-        open
+        <Icons.PanelRightOpen className="text-[21px] text-white" />
       </button>
 
       <div
@@ -289,7 +289,7 @@ function RequestPanel() {
       >
         <div className="flex w-full border-white/10">
           <button
-            className="p-1 hover:bg-white/25 rounded"
+            className="p-1 hover:bg-white/25 transition-colors rounded"
             onClick={() => setOpen(false)}
           >
             <Icons.X className="text-[21px] text-white" />

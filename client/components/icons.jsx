@@ -1,4 +1,10 @@
-import { LuCheck, LuChevronDown, LuTrash2, LuX } from "react-icons/lu";
+import {
+  LuCheck,
+  LuChevronDown,
+  LuPanelRightOpen,
+  LuTrash2,
+  LuX,
+} from "react-icons/lu";
 import { CgSpinner } from "react-icons/cg";
 
 export const Icons = {
@@ -7,4 +13,5 @@ export const Icons = {
   Check: LuCheck,
   X: LuX,
   Spinner: CgSpinner,
+  PanelRightOpen: LuPanelRightOpen,
 };
