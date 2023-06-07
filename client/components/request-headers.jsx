@@ -60,7 +60,7 @@ function RequestHeaders({ focus, setFocus, headers, changeRequest }) {
                         if (key !== "key" || e.key !== "Enter") return;
 
                         setFocus({
-                          idx: index,
+                          idx: idx,
                           key: "value",
                         });
                       }}

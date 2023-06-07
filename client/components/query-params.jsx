@@ -59,7 +59,7 @@ function QueryParams({ queries, changeRequest, focus, setFocus }) {
                       onKeyUp={(e) => {
                         if (key !== "key" || e.key !== "Enter") return;
                         setFocus({
-                          idx: index,
+                          idx: idx,
                           key: "value",
                         });
                       }}
