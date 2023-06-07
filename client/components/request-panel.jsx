@@ -1,9 +1,16 @@
-import { useEffect, useReducer, useState } from "preact/hooks";
+import { useEffect, useReducer, useRef, useState } from "preact/hooks";
 import { useBackendFilesContext } from "../context/backend-files-context";
 import { cn } from "../helpers/cn";
 import RequestInput from "./request-input";
+import { Icons } from "./icons";
+import QueryParams from "./query-params";
 
 function RequestPanel() {
+  const [focus, setFocus] = useState({
+    idx: null,
+    key: null,
+  });
+
   const [request, changeRequest] = useReducer(
     (state, action) => {
       switch (action.type) {
@@ -13,20 +20,177 @@ function RequestPanel() {
             method: action.payload,
           };
         }
+        case "changeUrl": {
+          const url = action.payload;
+
+          if (!url) return state;
+
+          const q_idx = url?.search(/\?/);
+
+          if (q_idx < 0) return state;
+
+          const queries = new URLSearchParams(
+            url?.substring(q_idx, url.length)
+          );
+
+          const entries = Object.entries(
+            Object.fromEntries(queries.entries())
+          ).map(([key, value]) => ({
+            key,
+            value,
+          }));
+
+          const disabledQueries = [];
+
+          state?.queries?.map((item, idx) => {
+            if (!item.disabled) return;
+            disabledQueries.push({
+              query: item,
+              idx,
+            });
+          });
+
+          for (let i = 0; i < disabledQueries.length; ++i) {
+            entries.splice(
+              disabledQueries[i]?.idx,
+              0,
+              disabledQueries[i]?.query
+            );
+          }
+
+          return {
+            ...state,
+            queries: entries.map((item, idx) => ({
+              ...item,
+              disabled: state.queries[idx]?.disabled
+                ? state.queries[idx]?.disabled
+                : false,
+            })),
+            url: url,
+          };
+        }
+        case "changeQuery": {
+          const clone = structuredClone(state?.queries);
+          const url = state.url;
+
+          clone[action.payload.idx][action.payload.property] =
+            action.payload.value;
+
+          const params = {};
+          clone.forEach((item) => {
+            if (item.disabled) return;
+            params[item.key] = item.value;
+          });
+
+          const params_string = new URLSearchParams(params).toString();
+
+          const q_idx = url.search(/\?/);
+
+          if (q_idx < 0) {
+            return {
+              ...state,
+              queries: clone,
+              url: url + "?" + params_string,
+            };
+          }
+
+          return {
+            ...state,
+            queries: clone,
+            url: url.substring(0, q_idx) + "?" + params_string,
+          };
+        }
+        case "removeQuery": {
+          const clone = state.queries.filter(
+            (_, idx) => idx !== action.payload
+          );
+
+          const url = state.url;
+
+          const params = {};
+          clone.forEach((item) => {
+            if (item.disabled) return;
+            params[item.key] = item.value;
+          });
+
+          const params_string = new URLSearchParams(params).toString();
+
+          const q_idx = url.search(/\?/);
+
+          if (q_idx < 0) {
+            return {
+              ...state,
+              queries: clone,
+              url: url + "?" + params_string,
+            };
+          }
+
+          return {
+            ...state,
+            queries: clone,
+            url: url.substring(0, q_idx + 1) + params_string,
+          };
+        }
+        case "createQuery": {
+          const new_query = {
+            key: "",
+            value: "",
+            disabled: false,
+          };
+          const clone = [
+            ...structuredClone(state.queries),
+            {
+              ...new_query,
+              [action.payload.key]: action.payload.value,
+            },
+          ];
+
+          setFocus({
+            idx: clone.length - 1,
+            key: action.payload.key,
+          });
+
+          const url = state.url;
+
+          const params = {};
+          clone.forEach((item) => {
+            if (item.disabled) return;
+            params[item.key] = item.value;
+          });
+
+          const params_string = new URLSearchParams(params).toString();
+
+          const q_idx = url.search(/\?/);
+
+          if (q_idx < 0) {
+            return {
+              ...state,
+              queries: clone,
+              url: url + "?" + params_string,
+            };
+          }
+
+          return {
+            ...state,
+            queries: clone,
+            url: url.substring(0, q_idx + 1) + params_string,
+          };
+        }
         default: {
           return state;
         }
       }
     },
     {
-      url: "http://localhost:",
-      queries: {},
+      url: "http://localhost:3000",
       headers: {},
+      queries: [],
       method: "",
     }
   );
 
   const [open, setOpen] = useState(false);
+  const [loadingReq, setLoadingReq] = useState(false);
   const { setBackendFiles } = useBackendFilesContext();
 
   useEffect(() => {
@@ -53,13 +217,30 @@ function RequestPanel() {
         )}
       >
         <form
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
+
+            setLoadingReq(true);
+
+            await new Promise((resolve) => {
+              setTimeout(() => resolve(), 1000);
+            });
+
+            setBackendFiles(["1", "9", "5"]);
+
+            setLoadingReq(false);
           }}
-          className="flex items-center justify-center relative gap-4"
+          className="flex items-center justify-center relative gap-4 z-[10]"
         >
           <RequestInput
-            method={request.method}
+            url={request?.url}
+            setUrl={(v) => {
+              changeRequest({
+                type: "changeUrl",
+                payload: v,
+              });
+            }}
+            method={request?.method}
             setMethod={(v) => {
               changeRequest({
                 type: "changeMethod",
@@ -68,10 +249,28 @@ function RequestPanel() {
             }}
           />
 
-          <button className="bg-violet-500 hover:bg-violet-500/90 text-white text-[14px] px-7 h-[38px] font-semibold leading-none rounded">
-            Send
+          <button
+            className={cn(
+              "flex transition-colors items-center justify-center text-white text-[14px] w-[100px] h-[38px] font-semibold leading-none rounded",
+              loadingReq
+                ? "bg-violet-500/50"
+                : "bg-violet-500 hover:bg-violet-500/90"
+            )}
+          >
+            {loadingReq ? (
+              <Icons.Spinner className="animate-spin text-[18px]" />
+            ) : (
+              "Send"
+            )}
           </button>
         </form>
+
+        <QueryParams
+          queries={request?.queries}
+          changeRequest={changeRequest}
+          focus={focus}
+          setFocus={setFocus}
+        />
       </div>
 
       <div

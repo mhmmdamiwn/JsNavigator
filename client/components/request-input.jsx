@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "preact/hooks";
 import { cn } from "../helpers/cn";
 import { Icons } from "./icons";
 
-const RequestInput = ({ method, setMethod }) => {
+const RequestInput = ({ method, setMethod, url, setUrl }) => {
   const methods = {
     GET: {
       color: "text-green-500/75",
@@ -21,7 +21,6 @@ const RequestInput = ({ method, setMethod }) => {
     },
   };
 
-  const [url, setUrl] = useState("https://localhost:");
   const [methodColor, setMethodColor] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
 
@@ -29,11 +28,13 @@ const RequestInput = ({ method, setMethod }) => {
   const methodInputContainer = useRef(null);
 
   useEffect(() => {
+    console.log(method);
     if (method === "POST") return setMethodColor(methods["POST"].color);
     if (method === "GET") return setMethodColor(methods["GET"].color);
     if (method === "PUT") return setMethodColor(methods["PUT"].color);
     if (method === "PATCH") return setMethodColor(methods["PATCH"].color);
     if (method === "DELETE") return setMethodColor(methods["DELETE"].color);
+
     setMethodColor("");
   }, [method]);
 
@@ -87,6 +88,7 @@ const RequestInput = ({ method, setMethod }) => {
         />
 
         <button
+          type="button"
           onClick={() => {
             setShowSuggestions((prev) => !prev);
           }}
@@ -128,6 +130,7 @@ const RequestInput = ({ method, setMethod }) => {
                   );
             return list.map(([key, { color }], idx) => (
               <button
+                type="button"
                 key={idx}
                 onClick={() => {
                   setMethod(key);
