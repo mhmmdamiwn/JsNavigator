@@ -6,6 +6,7 @@ import { Icons } from "./icons";
 import QueryParams from "./query-params";
 import RequestHeaders from "./request-headers";
 import { TabContent, TabRoot, TabTrigger, TabTriggerWrapper } from "./ui/tabs";
+import { memo } from "preact/compat";
 
 function RequestPanel() {
   const [focus, setFocus] = useState({
@@ -373,4 +374,4 @@ function RequestPanel() {
   );
 }
 
-export default RequestPanel;
+export default memo(RequestPanel);

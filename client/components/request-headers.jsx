@@ -1,6 +1,7 @@
 import React from "react";
 import { cn } from "../helpers/cn";
 import { Icons } from "./icons";
+import { memo } from "preact/compat";
 
 function RequestHeaders({ focus, setFocus, headers, changeRequest }) {
   return (
@@ -143,8 +144,10 @@ function RequestHeaders({ focus, setFocus, headers, changeRequest }) {
           headersObject[key] = value;
         });
 
+        console.log();
+
         return (
-          <div className="text-white w-full min-h-[100px] bg-neutral-800 whitespace-pre border border-white/10 rounded mt-2 px-2 py-1 text-[12px]">
+          <div className="text-white w-full min-h-[100px] bg-neutral-800 whitespace-pre border border-white/10 rounded mt-3 px-2 py-1 text-[12px]">
             {JSON.stringify(headersObject, null, 2)}
           </div>
         );
@@ -153,4 +156,4 @@ function RequestHeaders({ focus, setFocus, headers, changeRequest }) {
   );
 }
 
-export default RequestHeaders;
+export default memo(RequestHeaders);
