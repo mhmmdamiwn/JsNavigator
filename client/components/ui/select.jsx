@@ -3,9 +3,14 @@ import { cn } from "../../helpers/cn";
 import { Icons } from "../icons";
 import { useClickOutSide } from "../../hooks/use-click-outside";
 
-const Select = ({ label, error, options = ["import", "require"] }) => {
+const Select = ({
+  label,
+  error,
+  options = ["import", "require"],
+  value,
+  setValue,
+}) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
   const id = useId();
 
   const [ref] = useClickOutSide(() => {

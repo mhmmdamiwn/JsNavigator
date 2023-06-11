@@ -1,10 +1,7 @@
 import { useId } from "preact/hooks";
 import { cn } from "../../helpers/cn";
-import { Icons } from "../icons";
 
-cn;
-
-const Input = ({ label, error }) => {
+const Input = ({ label, error, value, setValue }) => {
   const id = useId();
   return (
     <div className="flex flex-col gap-2 w-full relative">
@@ -22,6 +19,10 @@ const Input = ({ label, error }) => {
         )}
       >
         <input
+          value={value}
+          onInput={(e) => {
+            setValue(e.target.value);
+          }}
           autoComplete="off"
           className={cn("outline-none bg-transparent w-full", "")}
           id={id}
