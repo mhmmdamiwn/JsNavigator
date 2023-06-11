@@ -49,12 +49,6 @@ const RequestInput = ({ method, setMethod, url, setUrl }) => {
         methodInputContainer.current !== target &&
         !methodInputContainer.current?.contains(target)
       ) {
-        console.log(
-          ref.current !== target,
-          !ref.current?.contains(target),
-          methodInputContainer.current !== target,
-          !methodInputContainer.current?.contains(target)
-        );
         setShowSuggestions(false);
       }
     };
@@ -65,7 +59,10 @@ const RequestInput = ({ method, setMethod, url, setUrl }) => {
   }, [ref, showSuggestions, methodInputContainer]);
 
   return (
-    <div className="flex items-center justify-start w-full flex-shrink bg-transparent border border-white/25 rounded relative">
+    <div
+      className="flex items-center justify-start w-full flex-shrink bg-transparent border border-white/25 rounded relative focus-within:shadow-[0_0_0_1px] focus-within:shadow-white/10
+    "
+    >
       <div
         ref={methodInputContainer}
         className="flex items-center justify-center flex-shrink-0 py-2.5 px-2.5"
