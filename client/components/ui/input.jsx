@@ -9,7 +9,7 @@ const Input = ({ label, error }) => {
   return (
     <div className="flex flex-col gap-2 w-full relative">
       {label ? (
-        <label className="text-[13px] text-white" htmlFor={id}>
+        <label className="text-[13px] text-white w-fit" htmlFor={id}>
           {label}
         </label>
       ) : (
@@ -22,6 +22,7 @@ const Input = ({ label, error }) => {
         )}
       >
         <input
+          autoComplete="off"
           className={cn("outline-none bg-transparent w-full", "")}
           id={id}
         />

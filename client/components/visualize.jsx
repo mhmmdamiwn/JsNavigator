@@ -3,19 +3,7 @@ import { Network } from "vis-network";
 import { useBackendFilesContext } from "../context/backend-files-context";
 import { findSharedEdges } from "../helpers/find-shared-edges";
 
-function Visualize() {
-  const inputObject = {
-    1: ["1", "2", "3"],
-    2: ["1", "3"],
-    6: ["1", "3"],
-    5: ["1", "3"],
-    8: ["1", "3"],
-    9: ["1", "3"],
-    7: ["1", "3"],
-    5: ["1"],
-    4: ["6"],
-  };
-
+function Visualize({ files }) {
   const container = useRef(null);
 
   const { backendFiles } = useBackendFilesContext();
@@ -27,7 +15,7 @@ function Visualize() {
     const edges = [];
 
     // iterate over the object and create nodes and edges
-    Object.entries(inputObject).forEach(([key, value]) => {
+    Object.entries(files).forEach(([key, value]) => {
       nodes.push({ id: key, label: key });
       value.forEach((dependency) => {
         edges.push({ from: key, to: dependency });
