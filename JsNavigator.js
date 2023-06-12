@@ -1,27 +1,31 @@
-// Importing the necessary modules
-const getFilesInDependencyOrder = require("./GetFileInDependencyOrder");
-const FindHowUserImports = require("./FindHowUserImports");
-const FindUserStartFile = require("./FindUserStartFile");
-const readline = require('readline');
-const showFileInBrowser = require("./showInBrowser");
 
-// Creating an instance of readline to read input from the console
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
+const fs = require('fs')
+const { exec } = require('child_process');
+function JsNavigator(startFile){
+    let filePath = process.cwd()+`/${startFile}`;
+    const fileContent = fs.readFileSync(filePath, 'utf-8');
+    const modifiedContent = ` 
+    var Module = require('module');
+    var originalRequire = Module.prototype.require;
+    const fs = require('fs')
+    Module.prototype.require = function(arg){
+    const fileContent = fs.readFileSync(process.cwd()+'/requireLogs.txt', 'utf-8');
+    fs.writeFileSync('./requireLogs.txt',fileContent+arg+'\\n','utf-8')
+    return originalRequire.apply(this, arguments);
+    };\n
+    \n${fileContent}`;
+
+    fs.writeFileSync(filePath, modifiedContent, 'utf-8');
+exec(`node ${startFile}`, (error, stdout, stderr) => {
+  if (error) {
+    console.error(`Error: ${error.message}`);
+    return;
+  }
+  if (stderr) {
+    console.error(`stderr: ${stderr}`);
+    return;
+  }
+  console.log(`stdout: ${stdout}`);
 });
-
-// An async function that orchestrates the entire JsNavigator process
-async function JsNavigator() {
-  // Getting user input for the files that need to be processed
-  const userImport = await FindHowUserImports(rl);
-  const userStartFile = await FindUserStartFile(rl);
-
-  // Ordering the files based on their dependencies
-  const dependencyOrder = getFilesInDependencyOrder(`${process.cwd()}/${userStartFile}`, userImport);
-
-  // Displaying the ordered files in a browser
-  await showFileInBrowser(dependencyOrder);
-
 }
 module.exports = JsNavigator;

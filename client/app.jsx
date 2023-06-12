@@ -10,13 +10,27 @@ function App() {
     entry: "",
     importMethod: "",
   });
+  
   const [files, setFiles] = useState(null);
   const [loading, setLoading] = useState(false);
 
   // this is where we get files and set it using setFiles
-  useEffect(() => {
+  useEffect(async() => {
     if (!Object.values(information).every((i) => i)) return;
-
+    console.log(information)
+    const queryString = new URLSearchParams(information).toString();
+const url = `http://localhost:8585/jsnavigator?${queryString}`;
+let dependencyOrder = {};
+try{
+  let response = await fetch(url,{
+    mode:'no-cors'
+  });
+  let jsonData = await response.json();
+  console.log(jsonData);
+}
+catch(err){
+  console.log('erooooooor',err)
+}
     const handle = async () => {
       setLoading(true);
 
@@ -24,23 +38,14 @@ function App() {
         // here, instead of creating a fake promise we can get files
         const data = await new Promise((resolve) => {
           setTimeout(() => {
-            resolve({
-              1: ["1", "2", "3"],
-              2: ["1", "3"],
-              6: ["1", "3"],
-              5: ["1", "3"],
-              8: ["1", "3"],
-              9: ["1", "3"],
-              7: ["1", "3"],
-              5: ["1"],
-              4: ["6"],
-            });
+            resolve(dependencyOrder);
           }, 2000);
         });
 
         setFiles(data);
         setLoading(false);
       } catch (err) {
+        console.log('assssss',err)
         setLoading(false);
       }
     };
