@@ -10,42 +10,32 @@ function App() {
     entry: "",
     importMethod: "",
   });
-  
+
   const [files, setFiles] = useState(null);
   const [loading, setLoading] = useState(false);
 
   // this is where we get files and set it using setFiles
-  useEffect(async() => {
+  useEffect(() => {
     if (!Object.values(information).every((i) => i)) return;
-    console.log(information)
-    const queryString = new URLSearchParams(information).toString();
-const url = `http://localhost:8585/jsnavigator?${queryString}`;
-let dependencyOrder = {};
-try{
-  let response = await fetch(url,{
-    mode:'no-cors'
-  });
-  let jsonData = await response.json();
-  console.log(jsonData);
-}
-catch(err){
-  console.log('erooooooor',err)
-}
+
     const handle = async () => {
       setLoading(true);
-
       try {
-        // here, instead of creating a fake promise we can get files
-        const data = await new Promise((resolve) => {
-          setTimeout(() => {
-            resolve(dependencyOrder);
-          }, 2000);
+        const queryString = new URLSearchParams(information).toString();
+        const url = `http://localhost:8585/jsnavigator?${queryString}`;
+        console.log(url);
+
+        const response = await fetch(url, {
+          mode: "no-cors",
         });
 
-        setFiles(data);
+        // const jsonData = await response.json();
+
+        console.log(response);
+
         setLoading(false);
       } catch (err) {
-        console.log('assssss',err)
+        console.log("assssss", err);
         setLoading(false);
       }
     };
