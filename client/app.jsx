@@ -5,12 +5,12 @@ import { BackendFilesContextProvider } from "./context/backend-files-context";
 import ProjectInformation from "./components/project-information";
 import Loading from "./components/loading";
 
+
 function App() {
   const [information, setInformation] = useState({
     entry: "",
     importMethod: "",
   });
-
   const [files, setFiles] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -25,13 +25,11 @@ function App() {
         const url = `http://localhost:8585/jsnavigator?${queryString}`;
         console.log(url);
 
-        const response = await fetch(url, {
-          mode: "no-cors",
-        });
-
+        const response = await fetch(url);
+        const jsonData = await response.json()
         // const jsonData = await response.json();
 
-        console.log(response);
+        console.log(jsonData);
 
         setLoading(false);
       } catch (err) {

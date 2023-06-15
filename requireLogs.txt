@@ -15,3 +15,7 @@ cors
 object-assign
 vary
 ./2
+./2
+./2
+./2
+./2

@@ -2,6 +2,8 @@
 const fs = require('fs')
 const { exec } = require('child_process');
 function JsNavigator(startFile){
+  try{
+
     let filePath = process.cwd()+`/${startFile}`;
     const fileContent = fs.readFileSync(filePath, 'utf-8');
     const modifiedContent = ` 
@@ -16,6 +18,10 @@ function JsNavigator(startFile){
     \n${fileContent}`;
 
     fs.writeFileSync(filePath, modifiedContent, 'utf-8');
+  }
+  catch(err){
+    console.log(err)
+  }
 exec(`node ${startFile}`, (error, stdout, stderr) => {
   if (error) {
     console.error(`Error: ${error.message}`);

@@ -11,21 +11,21 @@ const corsOptions = {
 };
 
 const server = http.createServer((request, response) => {
+  
   const { method, url } = request;
   const parsedUrl = new URL(url, `http://${request.headers.host}`);
-  const queryParams = querystring.parse(parsedUrl.searchParams.toString());
-
+  if (method === "GET" && parsedUrl.pathname === "/jsnavigator") {
+    console.log('here')
+    const queryParams = querystring.parse(parsedUrl.searchParams.toString());
   if (queryParams) JsNavigator(queryParams.entry);
   const dependencyOrder = getFilesInDependencyOrder(
     `${process.cwd()}/${queryParams.entry}`,
-    queryParams.entry
+    queryParams.importMethod
   );
   console.log(dependencyOrder);
-  if (method === "GET" && parsedUrl.pathname === "/jsnavigator") {
-    response.setHeader("Access-Control-Allow-Origin", "http://localhost:5174"); // Allow requests from http://localhost:5174
+    response.setHeader("Access-Control-Allow-Origin", "*"); // Allow requests from http://localhost:5174
     response.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
     response.setHeader("Access-Control-Allow-Credentials", "true");
-    response.setHeader("Access-Control-Allow-Headers", "Content-Type");
     response.setHeader("Content-Type", "application/json"); // Update content type to application/json
 
     response.writeHead(200);
