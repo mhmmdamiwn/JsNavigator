@@ -11,18 +11,21 @@ app.get('/jsnavigator',(req,res)=>{
     const queryParams = req.query;
    dependencyOrder = getFilesInDependencyOrder(`${process.cwd()}/${queryParams.entry}`,queryParams.importMethod);
   console.log(dependencyOrder);
-  res.setHeader("Access-Control-Allow-Origin", "*"); 
-  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader("Content-Type", "application/json"); 
-  res.writeHead(200);
-    res.end(JSON.stringify(dependencyOrder));
+  res.set("Access-Control-Allow-Origin", "*"); 
+  res.set("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+  res.set("Access-Control-Allow-Credentials", "true");
+  res.set("Content-Type", "application/json"); 
+    res.send(JSON.stringify(dependencyOrder));
   
 })
 
 app.get('/jsnavigator/postman',(req,res)=>{
   const lastExecutedFile = logReader("./Logs.txt",dependencyOrder)
   const executedPath = findExecutedPath(lastExecutedFile,dependencyOrder);
+  res.set("Access-Control-Allow-Origin", "*"); 
+  res.set("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+  res.set("Access-Control-Allow-Credentials", "true");
+  res.set("Content-Type", "application/json"); 
     res.send(JSON.stringify(executedPath));
   }
 )
