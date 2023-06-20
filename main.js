@@ -1,44 +1,34 @@
-const http = require("http");
-const JsNavigator = require("./JsNavigator");
+
+const logReader = require("./logReader");
 const getFilesInDependencyOrder = require("./GetFileInDependencyOrder");
-const { URL } = require("url");
-const querystring = require("querystring");
-const cors = require("cors");
-const corsOptions = {
-  origin: "*",
-  credentials: true, //access-control-allow-credentials:true
-  optionSuccessStatus: 200,
-};
+const findExecutedPath = require('./findExecutedPath')
+const app = require('express')()
 
-const server = http.createServer((request, response) => {
-  
-  const { method, url } = request;
-  const parsedUrl = new URL(url, `http://${request.headers.host}`);
-  if (method === "GET" && parsedUrl.pathname === "/jsnavigator") {
-    console.log('here')
-    const queryParams = querystring.parse(parsedUrl.searchParams.toString());
-  if (queryParams) JsNavigator(queryParams.entry);
-  const dependencyOrder = getFilesInDependencyOrder(
-    `${process.cwd()}/${queryParams.entry}`,
-    queryParams.importMethod
-  );
+
+  let dependencyOrder;
+
+app.get('/jsnavigator',(req,res)=>{
+    const queryParams = req.query;
+   dependencyOrder = getFilesInDependencyOrder(`${process.cwd()}/${queryParams.entry}`,queryParams.importMethod);
   console.log(dependencyOrder);
-    response.setHeader("Access-Control-Allow-Origin", "*"); // Allow requests from http://localhost:5174
-    response.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
-    response.setHeader("Access-Control-Allow-Credentials", "true");
-    response.setHeader("Content-Type", "application/json"); // Update content type to application/json
+  res.setHeader("Access-Control-Allow-Origin", "*"); 
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Content-Type", "application/json"); 
+  res.writeHead(200);
+    res.end(JSON.stringify(dependencyOrder));
+  
+})
 
-    response.writeHead(200);
-    response.end(JSON.stringify(dependencyOrder));
-  } else {
-    // Handle other routes
-    response.writeHead(404, { "Content-Type": "text/plain" });
-    response.end("Not Found");
+app.get('/jsnavigator/postman',(req,res)=>{
+  const lastExecutedFile = logReader("./Logs.txt",dependencyOrder)
+  const executedPath = findExecutedPath(lastExecutedFile,dependencyOrder);
+    res.send(JSON.stringify(executedPath));
   }
-});
+)
 
-const port = 8585;
-
-server.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+  app.listen(8585,(err)=>{
+    if(err)
+    console.log(err)
+    console.log('server listening on port 8585')
+  })

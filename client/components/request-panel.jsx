@@ -119,19 +119,10 @@ function RequestPanel() {
           const params_string = new URLSearchParams(params).toString();
 
           const q_idx = url.search(/\?/);
-
-          if (q_idx < 0) {
-            return {
-              ...state,
-              queries: clone,
-              url: url + "?" + params_string,
-            };
-          }
-
           return {
             ...state,
             queries: clone,
-            url: url.substring(0, q_idx + 1) + params_string,
+            url: q_idx<0? url + "?" + params_string : url.substring(0, q_idx + 1) + params_string ,
           };
         }
         case "createQuery": {
