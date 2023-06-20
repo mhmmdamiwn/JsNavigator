@@ -10,12 +10,7 @@ function App() {
     entry: "",
     importMethod: "",
   });
-  const [files, setFiles] = useState({
-    1: ["2", "3"],
-    2: ["3", "4"],
-    3: [],
-    4: [],
-  });
+  const [files, setFiles] = useState(null);
   const [loading, setLoading] = useState(false);
 
   // this is where we get files and set it using setFiles
@@ -33,7 +28,7 @@ function App() {
         const jsonData = await response.json();
         // const jsonData = await response.json();
 
-        console.log(jsonData);
+        setFiles(jsonData);
 
         setLoading(false);
       } catch (err) {

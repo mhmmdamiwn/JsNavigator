@@ -289,6 +289,18 @@ function RequestPanel() {
           >
             <Icons.X className="text-[21px] text-white" />
           </button>
+
+          <div className="flex items-center justify-end gap-2 w-full">
+            <button className="group flex items-center justify-center bg-background hover:bg-white/20 rounded border border-white/25 p-1 transition-all">
+              <Icons.Github className="text-[16px] h-[16px] text-white/75 group-hover:text-white" />
+            </button>
+
+            <button className="group group relative flex items-center justify-center gap-1 bg-background hover:bg-white/20 rounded border border-white/25 p-1  text-white/75 hover:text-white transition-all">
+              <Icons.Star className="text-[16px] h-[16px]" />
+              <span className="flex h-[16px] w-[1px] bg-white/25" />
+              <p className="text-[10px] px-1">7</p>
+            </button>
+          </div>
         </div>
 
         <form

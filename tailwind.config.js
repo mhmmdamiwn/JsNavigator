@@ -12,6 +12,7 @@ module.exports = {
         "muted-foreground": "",
         border: "",
         "muted-border": "",
+        error: "rgb(var(--error) / <alpha-value>)",
       },
     },
   },

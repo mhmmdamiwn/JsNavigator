@@ -3,10 +3,11 @@ import { cn } from "../../helpers/cn";
 
 const Input = ({ label, error, value, setValue }) => {
   const id = useId();
+
   return (
-    <div className="flex flex-col gap-2 w-full relative">
+    <div className="flex flex-col w-full relative">
       {label ? (
-        <label className="text-[13px] text-white w-fit" htmlFor={id}>
+        <label className="text-[13px] text-white w-fit mb-2" htmlFor={id}>
           {label}
         </label>
       ) : (
@@ -14,8 +15,10 @@ const Input = ({ label, error, value, setValue }) => {
       )}
       <div
         className={cn(
-          "flex items-center bg-neutral-800 gap-1 text-white border border-white/25 text-[13px] rounded p-2.5 focus-within:shadow-[0_0_0_2px] focus-within:shadow-white/5 focus-within:border-violet-400",
-          error ? "border-red-400" : ""
+          "flex items-center bg-neutral-800 gap-1 text-white border  text-[13px] rounded p-2.5 focus-within:shadow-[0_0_0_3px] ",
+          error
+            ? "border-error focus-within:shadow-error/20 "
+            : "border-white/25 focus-within:shadow-white/5  focus-within:border-primary"
         )}
       >
         <input
@@ -28,6 +31,8 @@ const Input = ({ label, error, value, setValue }) => {
           id={id}
         />
       </div>
+
+      {error ? <p className="text-[13px] text-error">{error}</p> : ""}
     </div>
   );
 };

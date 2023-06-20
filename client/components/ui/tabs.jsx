@@ -54,19 +54,28 @@ export const TabTrigger = memo(
     return (
       <button
         ref={(node) => {
-          if (!node) return;
+          if (
+            !node ||
+            tabIndex !== current ||
+            tabIndex === linePosition.tabIndex
+          )
+            return;
 
-          if (tabIndex === current && tabIndex !== linePosition.tabIndex) {
-            setTimeout(
-              () =>
-                setLinePosition({
-                  left: node.offsetLeft,
-                  width: node.offsetWidth,
-                  tabIndex,
-                }),
-              0
-            );
-          }
+          setTimeout(() => {
+            // todo!
+            // fix tabColored line being small at the first load of website (isn't happening when refreshed)
+            console.log({
+              left: node.offsetLeft,
+              width: node.offsetWidth,
+              tabIndex,
+            });
+
+            setLinePosition({
+              left: node.offsetLeft,
+              width: node.offsetWidth,
+              tabIndex,
+            });
+          }, 0);
         }}
         className={cn(
           "text-[12px] py-1 transition-colors",
