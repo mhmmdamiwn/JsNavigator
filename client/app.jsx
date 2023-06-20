@@ -4,13 +4,19 @@ import Visualize from "./components/visualize";
 import { BackendFilesContextProvider } from "./context/backend-files-context";
 import ProjectInformation from "./components/project-information";
 import Loading from "./components/loading";
+import { Suspense } from "preact/compat";
 
 function App() {
   const [information, setInformation] = useState({
     entry: "",
     importMethod: "",
   });
-  const [files, setFiles] = useState(null);
+  const [files, setFiles] = useState({
+    1: ["2", "3"],
+    2: ["4", "3"],
+    3: [],
+    4: ["1"],
+  });
   const [loading, setLoading] = useState(false);
 
   // this is where we get files and set it using setFiles
@@ -52,7 +58,9 @@ function App() {
   return (
     <BackendFilesContextProvider>
       <Visualize files={files} />
-      <RequestPanel />
+      <Suspense fallback={<p>loading</p>}>
+        <RequestPanel />
+      </Suspense>
     </BackendFilesContextProvider>
   );
 }

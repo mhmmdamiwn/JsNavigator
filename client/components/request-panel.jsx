@@ -7,6 +7,7 @@ import QueryParams from "./query-params";
 import RequestHeaders from "./request-headers";
 import { TabContent, TabRoot, TabTrigger, TabTriggerWrapper } from "./ui/tabs";
 import { memo } from "preact/compat";
+import IconButton from "./ui/icon-button";
 
 function RequestPanel() {
   const [focus, setFocus] = useState({
@@ -267,14 +268,16 @@ function RequestPanel() {
 
   return (
     <>
-      <button
-        className="fixed top-4 transition-colors right-4 p-1 rounded hover:bg-white/25"
+      <IconButton
+        size="md"
+        variant="ghost"
+        className="fixed top-4 right-4"
         onClick={() => {
           setOpen(true);
         }}
       >
-        <Icons.PanelRightOpen className="text-[21px] text-white" />
-      </button>
+        <Icons.PanelRightOpen className="text-[21px] text-white/75 hover:text-white transition-all" />
+      </IconButton>
 
       <div
         className={cn(
@@ -283,23 +286,20 @@ function RequestPanel() {
         )}
       >
         <div className="flex w-full border-white/10">
-          <button
-            className="p-1 hover:bg-white/25 transition-colors rounded"
-            onClick={() => setOpen(false)}
-          >
-            <Icons.X className="text-[21px] text-white" />
-          </button>
+          <IconButton variant="ghost" size="md" onClick={() => setOpen(false)}>
+            <Icons.X className="text-[21px]" />
+          </IconButton>
 
           <div className="flex items-center justify-end gap-2 w-full">
-            <button className="group flex items-center justify-center bg-background hover:bg-white/20 rounded border border-white/25 p-1 transition-all">
-              <Icons.Github className="text-[16px] h-[16px] text-white/75 group-hover:text-white" />
-            </button>
+            <IconButton size="sm" variant="outlined">
+              <Icons.Github className="text-[16px] h-[16px]" />
+            </IconButton>
 
-            <button className="group group relative flex items-center justify-center gap-1 bg-background hover:bg-white/20 rounded border border-white/25 p-1  text-white/75 hover:text-white transition-all">
+            <IconButton size="sm" variant="outlined" className="gap-1">
               <Icons.Star className="text-[16px] h-[16px]" />
               <span className="flex h-[16px] w-[1px] bg-white/25" />
               <p className="text-[10px] px-1">7</p>
-            </button>
+            </IconButton>
           </div>
         </div>
 
