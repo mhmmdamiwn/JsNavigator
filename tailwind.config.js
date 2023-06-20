@@ -2,7 +2,18 @@
 module.exports = {
   content: ["./index.html", "./client/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "rgb(var(--primary) / <alpha-value>)",
+        "muted-primary": "",
+        background: "",
+        "muted-background": "",
+        foreground: "",
+        "muted-foreground": "",
+        border: "",
+        "muted-border": "",
+      },
+    },
   },
   plugins: [],
 };

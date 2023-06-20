@@ -5,13 +5,17 @@ import { BackendFilesContextProvider } from "./context/backend-files-context";
 import ProjectInformation from "./components/project-information";
 import Loading from "./components/loading";
 
-
 function App() {
   const [information, setInformation] = useState({
     entry: "",
     importMethod: "",
   });
-  const [files, setFiles] = useState(null);
+  const [files, setFiles] = useState({
+    1: ["2", "3"],
+    2: ["3", "4"],
+    3: [],
+    4: [],
+  });
   const [loading, setLoading] = useState(false);
 
   // this is where we get files and set it using setFiles
@@ -26,7 +30,7 @@ function App() {
         console.log(url);
 
         const response = await fetch(url);
-        const jsonData = await response.json()
+        const jsonData = await response.json();
         // const jsonData = await response.json();
 
         console.log(jsonData);

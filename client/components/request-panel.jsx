@@ -122,7 +122,10 @@ function RequestPanel() {
           return {
             ...state,
             queries: clone,
-            url: q_idx<0? url + "?" + params_string : url.substring(0, q_idx + 1) + params_string ,
+            url:
+              q_idx < 0
+                ? url + "?" + params_string
+                : url.substring(0, q_idx + 1) + params_string,
           };
         }
         case "createQuery": {
@@ -323,10 +326,8 @@ function RequestPanel() {
 
           <button
             className={cn(
-              "flex transition-colors items-center justify-center text-white text-[14px] w-[100px] h-[38px] font-semibold leading-none rounded",
-              loadingReq
-                ? "bg-violet-500/50"
-                : "bg-violet-500 hover:bg-violet-500/90"
+              "flex transition-all items-center justify-center text-white text-[14px] w-[100px] h-[38px] font-semibold leading-none rounded",
+              loadingReq ? "bg-primary/50" : "bg-primary hover:bg-primary/90"
             )}
           >
             {loadingReq ? (
