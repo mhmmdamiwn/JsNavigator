@@ -1,5 +1,5 @@
 import { createContext } from "preact";
-import { useContext, useState } from "preact/hooks";
+import { useContext, useEffect, useState } from "preact/hooks";
 import { cn } from "../../helpers/cn";
 import { memo } from "preact/compat";
 
@@ -97,6 +97,14 @@ export const TabTrigger = memo(
 );
 
 export const TabTriggerWrapper = memo(({ children, ...props }) => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return <></>;
+
   return (
     <div className="flex gap-5 relative" {...props}>
       {children}
