@@ -8,6 +8,7 @@ import RequestHeaders from "./request-headers";
 import { TabContent, TabRoot, TabTrigger, TabTriggerWrapper } from "./ui/tabs";
 import { memo } from "preact/compat";
 import IconButton from "./ui/icon-button";
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
 function RequestPanel() {
   const [focus, setFocus] = useState({
@@ -350,21 +351,51 @@ function RequestPanel() {
           </button>
         </form>
 
-        <TabRoot defaultTab={tabs[0]?.title} className="mt-3">
-          <TabTriggerWrapper>
-            {tabs.map(({ title }) => (
-              <TabTrigger tabIndex={title}>{title}</TabTrigger>
-            ))}
-          </TabTriggerWrapper>
+        <PanelGroup direction="vertical">
+          <Panel className="relative">
+            <TabRoot
+              defaultTab={tabs[0]?.title}
+              className="h-full mt-3 overflow-auto pb-5"
+            >
+              <TabTriggerWrapper>
+                {tabs.map(({ title }) => (
+                  <TabTrigger tabIndex={title}>{title}</TabTrigger>
+                ))}
+              </TabTriggerWrapper>
 
-          <div>
-            {tabs?.map(({ Component, props, title }) => (
-              <TabContent tabIndex={title}>
-                <Component {...props} />
-              </TabContent>
-            ))}
-          </div>
-        </TabRoot>
+              <div>
+                {tabs?.map(({ Component, props, title }) => (
+                  <TabContent tabIndex={title}>
+                    <Component {...props} />
+                  </TabContent>
+                ))}
+              </div>
+            </TabRoot>
+          </Panel>
+
+          <PanelResizeHandle className="h-0.5 my-0.5 hover:my-[1px] hover:py-0.5 bg-white/25 hover:bg-white/40 active:bg-primary" />
+
+          <Panel className="relative">
+            <TabRoot
+              defaultTab={tabs[0]?.title}
+              className="mt-3 h-full overflow-auto pb-4"
+            >
+              <TabTriggerWrapper>
+                {tabs.map(({ title }) => (
+                  <TabTrigger tabIndex={title}>{title}</TabTrigger>
+                ))}
+              </TabTriggerWrapper>
+
+              <div>
+                {tabs?.map(({ Component, props, title }) => (
+                  <TabContent tabIndex={title}>
+                    <Component {...props} />
+                  </TabContent>
+                ))}
+              </div>
+            </TabRoot>
+          </Panel>
+        </PanelGroup>
       </div>
 
       <div
