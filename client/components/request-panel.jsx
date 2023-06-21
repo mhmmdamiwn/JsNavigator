@@ -9,6 +9,7 @@ import { TabContent, TabRoot, TabTrigger, TabTriggerWrapper } from "./ui/tabs";
 import { memo } from "preact/compat";
 import IconButton from "./ui/icon-button";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import ResponseAsJson from "./response/response-as-json";
 
 function RequestPanel() {
   const [focus, setFocus] = useState({
@@ -244,7 +245,7 @@ function RequestPanel() {
     if (!open) document.body.classList.remove("overflow-hidden");
   }, [open]);
 
-  const tabs = [
+  const reqTabs = [
     {
       title: "Params",
       Component: QueryParams,
@@ -263,6 +264,18 @@ function RequestPanel() {
         changeRequest: changeRequest,
         focus: focus,
         setFocus: setFocus,
+      },
+    },
+  ];
+
+  const resTabs = [
+    {
+      title: "JSON",
+      Component: ResponseAsJson,
+      props: {
+        response: {
+          test: "test",
+        },
       },
     },
   ];
@@ -354,17 +367,17 @@ function RequestPanel() {
         <PanelGroup direction="vertical">
           <Panel className="relative">
             <TabRoot
-              defaultTab={tabs[0]?.title}
+              defaultTab={reqTabs[0]?.title}
               className="h-full mt-3 overflow-auto pb-5"
             >
               <TabTriggerWrapper>
-                {tabs.map(({ title }) => (
+                {reqTabs.map(({ title }) => (
                   <TabTrigger tabIndex={title}>{title}</TabTrigger>
                 ))}
               </TabTriggerWrapper>
 
               <div>
-                {tabs?.map(({ Component, props, title }) => (
+                {reqTabs?.map(({ Component, props, title }) => (
                   <TabContent tabIndex={title}>
                     <Component {...props} />
                   </TabContent>
@@ -377,17 +390,17 @@ function RequestPanel() {
 
           <Panel className="relative">
             <TabRoot
-              defaultTab={tabs[0]?.title}
+              defaultTab={resTabs[0]?.title}
               className="mt-3 h-full overflow-auto pb-4"
             >
               <TabTriggerWrapper>
-                {tabs.map(({ title }) => (
+                {resTabs.map(({ title }) => (
                   <TabTrigger tabIndex={title}>{title}</TabTrigger>
                 ))}
               </TabTriggerWrapper>
 
               <div>
-                {tabs?.map(({ Component, props, title }) => (
+                {resTabs?.map(({ Component, props, title }) => (
                   <TabContent tabIndex={title}>
                     <Component {...props} />
                   </TabContent>
