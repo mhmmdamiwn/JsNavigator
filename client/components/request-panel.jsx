@@ -10,6 +10,7 @@ import { memo } from "preact/compat";
 import IconButton from "./ui/icon-button";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import ResponseAsJson from "./response/response-as-json";
+import ResponseAsTable from "./response/response-as-table";
 
 function RequestPanel() {
   const [focus, setFocus] = useState({
@@ -234,7 +235,7 @@ function RequestPanel() {
       method: "",
     }
   );
-
+  const [response, setResponse] = useState(null);
   const [open, setOpen] = useState(false);
   const [loadingReq, setLoadingReq] = useState(false);
   const { setBackendFiles } = useBackendFilesContext();
@@ -270,12 +271,17 @@ function RequestPanel() {
 
   const resTabs = [
     {
+      title: "Table",
+      Component: ResponseAsTable,
+      props: {
+        response,
+      },
+    },
+    {
       title: "JSON",
       Component: ResponseAsJson,
       props: {
-        response: {
-          test: "test",
-        },
+        response,
       },
     },
   ];
@@ -311,8 +317,6 @@ function RequestPanel() {
 
             <IconButton size="sm" variant="outlined" className="gap-1">
               <Icons.Star className="text-[16px] h-[16px]" />
-              <span className="flex h-[16px] w-[1px] bg-white/25" />
-              <p className="text-[10px] px-1">7</p>
             </IconButton>
           </div>
         </div>
@@ -327,7 +331,10 @@ function RequestPanel() {
               setTimeout(() => resolve(), 1000);
             });
 
-            setBackendFiles(["1", "9", "5"]);
+            setBackendFiles(["1", "3", "4"]);
+            setResponse({
+              test: "test",
+            });
 
             setLoadingReq(false);
           }}
@@ -386,28 +393,33 @@ function RequestPanel() {
             </TabRoot>
           </Panel>
 
-          <PanelResizeHandle className="h-0.5 my-0.5 hover:my-[1px] hover:py-0.5 bg-white/25 hover:bg-white/40 active:bg-primary" />
+          {response ? (
+            <>
+              <PanelResizeHandle className="h-0.5 my-0.5 hover:my-[1px] hover:py-0.5 bg-white/25 hover:bg-white/40 active:bg-primary" />
+              <Panel className="relative">
+                <TabRoot
+                  defaultTab={resTabs[0]?.title}
+                  className="mt-3 h-full overflow-auto pb-4"
+                >
+                  <TabTriggerWrapper>
+                    {resTabs.map(({ title }) => (
+                      <TabTrigger tabIndex={title}>{title}</TabTrigger>
+                    ))}
+                  </TabTriggerWrapper>
 
-          <Panel className="relative">
-            <TabRoot
-              defaultTab={resTabs[0]?.title}
-              className="mt-3 h-full overflow-auto pb-4"
-            >
-              <TabTriggerWrapper>
-                {resTabs.map(({ title }) => (
-                  <TabTrigger tabIndex={title}>{title}</TabTrigger>
-                ))}
-              </TabTriggerWrapper>
-
-              <div>
-                {resTabs?.map(({ Component, props, title }) => (
-                  <TabContent tabIndex={title}>
-                    <Component {...props} />
-                  </TabContent>
-                ))}
-              </div>
-            </TabRoot>
-          </Panel>
+                  <div>
+                    {resTabs?.map(({ Component, props, title }) => (
+                      <TabContent tabIndex={title}>
+                        <Component {...props} />
+                      </TabContent>
+                    ))}
+                  </div>
+                </TabRoot>
+              </Panel>
+            </>
+          ) : (
+            <></>
+          )}
         </PanelGroup>
       </div>
 

@@ -62,14 +62,6 @@ export const TabTrigger = memo(
             return;
 
           setTimeout(() => {
-            // todo!
-            // fix tabColored line being small at the first load of website (isn't happening when refreshed)
-            console.log({
-              left: node.offsetLeft,
-              width: node.offsetWidth,
-              tabIndex,
-            });
-
             setLinePosition({
               left: node.offsetLeft,
               width: node.offsetWidth,
