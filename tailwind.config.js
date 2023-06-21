@@ -13,6 +13,7 @@ module.exports = {
         border: "",
         "muted-border": "",
         error: "rgb(var(--error) / <alpha-value>)",
+        success: "rgb(var(--success) / <alpha-value>)",
       },
     },
   },

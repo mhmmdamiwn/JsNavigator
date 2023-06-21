@@ -55,7 +55,7 @@ function ProjectInformation({ handleChanges }) {
             if (!NumberPattern.test(val) && val)
               return setErrors((prev) => ({
                 ...prev,
-                port: "Port only can contain number",
+                port: "Port only can contain numbers",
               }));
 
             if (errors.port)

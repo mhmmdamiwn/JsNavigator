@@ -235,7 +235,10 @@ function RequestPanel({ port }) {
       method: "",
     }
   );
-  const [response, setResponse] = useState(null);
+  const [response, setResponse] = useState({
+    data: null,
+    code: null,
+  });
   const [open, setOpen] = useState(false);
   const [loadingReq, setLoadingReq] = useState(false);
   const { setBackendFiles } = useBackendFilesContext();
@@ -274,14 +277,16 @@ function RequestPanel({ port }) {
       title: "Table",
       Component: ResponseAsTable,
       props: {
-        response,
+        data: response.data,
+        code: response.code,
       },
     },
     {
       title: "JSON",
       Component: ResponseAsJson,
       props: {
-        response,
+        data: response.data,
+        code: response.code,
       },
     },
   ];
@@ -310,15 +315,15 @@ function RequestPanel({ port }) {
             <Icons.X className="text-[21px]" />
           </IconButton>
 
-          <div className="flex items-center justify-end gap-2 w-full">
+          <a
+            target="_blank"
+            href="https://github.com/mhmmdamiwn/JsNavigator"
+            className="flex items-center justify-end gap-2 w-full"
+          >
             <IconButton size="sm" variant="outlined">
               <Icons.Github className="text-[16px] h-[16px]" />
             </IconButton>
-
-            <IconButton size="sm" variant="outlined" className="gap-1">
-              <Icons.Star className="text-[16px] h-[16px]" />
-            </IconButton>
-          </div>
+          </a>
         </div>
 
         <form
@@ -327,13 +332,19 @@ function RequestPanel({ port }) {
 
             setLoadingReq(true);
 
+            //instead of faking a req we will send a req and handle the front-end based on it
+
             await new Promise((resolve) => {
               setTimeout(() => resolve(), 1000);
             });
 
-            setBackendFiles(["1", "3", "4"]);
+            setBackendFiles(["1.js", "2.js"]);
+
             setResponse({
-              test: "test",
+              data: {
+                test: "test",
+              },
+              code: 204,
             });
 
             setLoadingReq(false);
@@ -393,7 +404,7 @@ function RequestPanel({ port }) {
             </TabRoot>
           </Panel>
 
-          {response ? (
+          {Object.values(response).every((v) => v !== null) ? (
             <>
               <PanelResizeHandle className="h-0.5 my-0.5 hover:my-[1px] hover:py-0.5 bg-white/25 hover:bg-white/40 active:bg-primary" />
               <Panel className="relative">

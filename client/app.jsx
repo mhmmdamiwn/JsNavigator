@@ -13,17 +13,9 @@ function App() {
     port: "",
   });
 
-  // mock data for tetsing
-  // {
-  //   1: ["2", "3"],
-  //   2: ["4", "3"],
-  //   3: [],
-  //   4: ["1"],
-  // }
   const [files, setFiles] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // this is where we get files and set it using setFiles
   useEffect(() => {
     if (!Object.values(information).every((i) => i)) return;
 
@@ -32,22 +24,26 @@ function App() {
       try {
         // const queryString = new URLSearchParams(information).toString();
         // const url = `http://localhost:8585/jsnavigator?${queryString}`;
-        // console.log(url);
 
         // const response = await fetch(url);
         // const jsonData = await response.json();
 
         // setFiles(jsonData);
 
-        setFiles({
-          1: ["2", "3"],
-          2: ["4", "3"],
-          3: [],
-          4: ["1"],
+        const data = await new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({
+              "1.js": ["2.js"],
+              "2.js": [],
+            });
+          }, 1000);
         });
+
+        setFiles(data);
+
         setLoading(false);
       } catch (err) {
-        console.log("assssss", err);
+        console.error(err);
         setLoading(false);
       }
     };
