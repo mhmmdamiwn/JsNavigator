@@ -10,13 +10,17 @@ function App() {
   const [information, setInformation] = useState({
     entry: "",
     importMethod: "",
+    port: "",
   });
-  const [files, setFiles] = useState({
-    1: ["2", "3"],
-    2: ["4", "3"],
-    3: [],
-    4: ["1"],
-  });
+
+  // mock data for tetsing
+  // {
+  //   1: ["2", "3"],
+  //   2: ["4", "3"],
+  //   3: [],
+  //   4: ["1"],
+  // }
+  const [files, setFiles] = useState(null);
   const [loading, setLoading] = useState(false);
 
   // this is where we get files and set it using setFiles
@@ -26,16 +30,21 @@ function App() {
     const handle = async () => {
       setLoading(true);
       try {
-        const queryString = new URLSearchParams(information).toString();
-        const url = `http://localhost:8585/jsnavigator?${queryString}`;
-        console.log(url);
+        // const queryString = new URLSearchParams(information).toString();
+        // const url = `http://localhost:8585/jsnavigator?${queryString}`;
+        // console.log(url);
 
-        const response = await fetch(url);
-        const jsonData = await response.json();
+        // const response = await fetch(url);
         // const jsonData = await response.json();
 
-        setFiles(jsonData);
+        // setFiles(jsonData);
 
+        setFiles({
+          1: ["2", "3"],
+          2: ["4", "3"],
+          3: [],
+          4: ["1"],
+        });
         setLoading(false);
       } catch (err) {
         console.log("assssss", err);
@@ -59,7 +68,7 @@ function App() {
     <BackendFilesContextProvider>
       <Visualize files={files} />
       <Suspense fallback={<p>loading</p>}>
-        <RequestPanel />
+        <RequestPanel port={information?.port} />
       </Suspense>
     </BackendFilesContextProvider>
   );

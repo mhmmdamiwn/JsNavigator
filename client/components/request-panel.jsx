@@ -12,7 +12,7 @@ import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import ResponseAsJson from "./response/response-as-json";
 import ResponseAsTable from "./response/response-as-table";
 
-function RequestPanel() {
+function RequestPanel({ port }) {
   const [focus, setFocus] = useState({
     idx: null,
     key: null,
@@ -34,7 +34,7 @@ function RequestPanel() {
 
           const q_idx = url?.search(/\?/);
 
-          if (q_idx < 0) return state;
+          if (q_idx < 0) return { ...state, url };
 
           const queries = new URLSearchParams(
             url?.substring(q_idx, url.length)
@@ -73,7 +73,7 @@ function RequestPanel() {
                 ? state.queries[idx]?.disabled
                 : false,
             })),
-            url: url,
+            url,
           };
         }
         case "changeQuery": {
@@ -229,7 +229,7 @@ function RequestPanel() {
       }
     },
     {
-      url: "http://localhost:3000",
+      url: "http://localhost:" + port,
       headers: [],
       queries: [],
       method: "",

@@ -1,13 +1,13 @@
 import { useId } from "preact/hooks";
 import { cn } from "../../helpers/cn";
 
-const Input = ({ label, error, value, setValue }) => {
+const Input = ({ label, error, value, ...props }) => {
   const id = useId();
 
   return (
     <div className="flex flex-col w-full relative">
       {label ? (
-        <label className="text-[13px] text-white w-fit mb-2" htmlFor={id}>
+        <label className="text-[13px] text-white w-fit mb-1" htmlFor={id}>
           {label}
         </label>
       ) : (
@@ -23,12 +23,10 @@ const Input = ({ label, error, value, setValue }) => {
       >
         <input
           value={value}
-          onInput={(e) => {
-            setValue(e.target.value);
-          }}
           autoComplete="off"
           className={cn("outline-none bg-transparent w-full", "")}
           id={id}
+          {...props}
         />
       </div>
 
