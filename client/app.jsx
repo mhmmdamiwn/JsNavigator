@@ -22,24 +22,13 @@ function App() {
     const handle = async () => {
       setLoading(true);
       try {
-        // const queryString = new URLSearchParams(information).toString();
-        // const url = `http://localhost:8585/jsnavigator?${queryString}`;
+        const queryString = new URLSearchParams(information).toString();
+        const url = `http://localhost:8585/jsnavigator?${queryString}`;
 
-        // const response = await fetch(url);
-        // const jsonData = await response.json();
+        const response = await fetch(url);
+        const jsonData = await response.json();
 
-        // setFiles(jsonData);
-
-        const data = await new Promise((resolve) => {
-          setTimeout(() => {
-            resolve({
-              "1.js": ["2.js"],
-              "2.js": [],
-            });
-          }, 1000);
-        });
-
-        setFiles(data);
+        setFiles(jsonData);
 
         setLoading(false);
       } catch (err) {
