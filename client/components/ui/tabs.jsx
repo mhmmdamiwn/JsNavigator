@@ -1,5 +1,5 @@
 import { createContext } from "preact";
-import { useContext, useState } from "preact/hooks";
+import { useContext, useEffect, useState } from "preact/hooks";
 import { cn } from "../../helpers/cn";
 import { memo } from "preact/compat";
 
@@ -54,19 +54,20 @@ export const TabTrigger = memo(
     return (
       <button
         ref={(node) => {
-          if (!node) return;
+          if (
+            !node ||
+            tabIndex !== current ||
+            tabIndex === linePosition.tabIndex
+          )
+            return;
 
-          if (tabIndex === current && tabIndex !== linePosition.tabIndex) {
-            setTimeout(
-              () =>
-                setLinePosition({
-                  left: node.offsetLeft,
-                  width: node.offsetWidth,
-                  tabIndex,
-                }),
-              0
-            );
-          }
+          setTimeout(() => {
+            setLinePosition({
+              left: node.offsetLeft,
+              width: node.offsetWidth,
+              tabIndex,
+            });
+          }, 0);
         }}
         className={cn(
           "text-[12px] py-1 transition-colors",
@@ -88,6 +89,14 @@ export const TabTrigger = memo(
 );
 
 export const TabTriggerWrapper = memo(({ children, ...props }) => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return <></>;
+
   return (
     <div className="flex gap-5 relative" {...props}>
       {children}

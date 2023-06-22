@@ -25,6 +25,7 @@
     "postcss": "^8.4.24",
     "preact": "^10.15.1",
     "react-icons": "^4.9.0",
+    "react-resizable-panels": "^0.0.51",
     "tailwind-merge": "^1.13.0",
     "tailwindcss": "^3.3.2",
     "vis-network": "^9.1.6",

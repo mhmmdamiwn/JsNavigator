@@ -1,7 +1,9 @@
 import {
   LuCheck,
   LuChevronDown,
+  LuGithub,
   LuPanelRightOpen,
+  LuStar,
   LuTrash2,
   LuX,
 } from "react-icons/lu";
@@ -14,4 +16,6 @@ export const Icons = {
   X: LuX,
   Spinner: CgSpinner,
   PanelRightOpen: LuPanelRightOpen,
+  Github: LuGithub,
+  Star: LuStar,
 };

@@ -4,17 +4,18 @@ import Visualize from "./components/visualize";
 import { BackendFilesContextProvider } from "./context/backend-files-context";
 import ProjectInformation from "./components/project-information";
 import Loading from "./components/loading";
-
+import { Suspense } from "preact/compat";
 
 function App() {
   const [information, setInformation] = useState({
     entry: "",
     importMethod: "",
+    port: "",
   });
+
   const [files, setFiles] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // this is where we get files and set it using setFiles
   useEffect(() => {
     if (!Object.values(information).every((i) => i)) return;
 
@@ -23,17 +24,15 @@ function App() {
       try {
         const queryString = new URLSearchParams(information).toString();
         const url = `http://localhost:8585/jsnavigator?${queryString}`;
-        console.log(url);
 
         const response = await fetch(url);
-        const jsonData = await response.json()
-        // const jsonData = await response.json();
+        const jsonData = await response.json();
 
-        console.log(jsonData);
+        setFiles(jsonData);
 
         setLoading(false);
       } catch (err) {
-        console.log("assssss", err);
+        console.error(err);
         setLoading(false);
       }
     };
@@ -53,7 +52,9 @@ function App() {
   return (
     <BackendFilesContextProvider>
       <Visualize files={files} />
-      <RequestPanel />
+      <Suspense fallback={<p>loading</p>}>
+        <RequestPanel port={information?.port} />
+      </Suspense>
     </BackendFilesContextProvider>
   );
 }

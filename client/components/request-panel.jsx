@@ -7,8 +7,12 @@ import QueryParams from "./query-params";
 import RequestHeaders from "./request-headers";
 import { TabContent, TabRoot, TabTrigger, TabTriggerWrapper } from "./ui/tabs";
 import { memo } from "preact/compat";
+import IconButton from "./ui/icon-button";
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import ResponseAsJson from "./response/response-as-json";
+import ResponseAsTable from "./response/response-as-table";
 
-function RequestPanel() {
+function RequestPanel({ port }) {
   const [focus, setFocus] = useState({
     idx: null,
     key: null,
@@ -30,7 +34,7 @@ function RequestPanel() {
 
           const q_idx = url?.search(/\?/);
 
-          if (q_idx < 0) return state;
+          if (q_idx < 0) return { ...state, url };
 
           const queries = new URLSearchParams(
             url?.substring(q_idx, url.length)
@@ -69,7 +73,7 @@ function RequestPanel() {
                 ? state.queries[idx]?.disabled
                 : false,
             })),
-            url: url,
+            url,
           };
         }
         case "changeQuery": {
@@ -122,7 +126,10 @@ function RequestPanel() {
           return {
             ...state,
             queries: clone,
-            url: q_idx<0? url + "?" + params_string : url.substring(0, q_idx + 1) + params_string ,
+            url:
+              q_idx < 0
+                ? url + "?" + params_string
+                : url.substring(0, q_idx + 1) + params_string,
           };
         }
         case "createQuery": {
@@ -222,13 +229,16 @@ function RequestPanel() {
       }
     },
     {
-      url: "http://localhost:3000",
+      url: "http://localhost:" + port,
       headers: [],
       queries: [],
       method: "",
     }
   );
-
+  const [response, setResponse] = useState({
+    data: null,
+    code: null,
+  });
   const [open, setOpen] = useState(false);
   const [loadingReq, setLoadingReq] = useState(false);
   const { setBackendFiles } = useBackendFilesContext();
@@ -239,7 +249,7 @@ function RequestPanel() {
     if (!open) document.body.classList.remove("overflow-hidden");
   }, [open]);
 
-  const tabs = [
+  const reqTabs = [
     {
       title: "Params",
       Component: QueryParams,
@@ -262,16 +272,37 @@ function RequestPanel() {
     },
   ];
 
+  const resTabs = [
+    {
+      title: "Table",
+      Component: ResponseAsTable,
+      props: {
+        data: response.data,
+        code: response.code,
+      },
+    },
+    {
+      title: "JSON",
+      Component: ResponseAsJson,
+      props: {
+        data: response.data,
+        code: response.code,
+      },
+    },
+  ];
+
   return (
     <>
-      <button
-        className="fixed top-4 transition-colors right-4 p-1 rounded hover:bg-white/25"
+      <IconButton
+        size="md"
+        variant="ghost"
+        className="fixed top-4 right-4"
         onClick={() => {
           setOpen(true);
         }}
       >
-        <Icons.PanelRightOpen className="text-[21px] text-white" />
-      </button>
+        <Icons.PanelRightOpen className="text-[21px] text-white/75 hover:text-white transition-all" />
+      </IconButton>
 
       <div
         className={cn(
@@ -280,12 +311,19 @@ function RequestPanel() {
         )}
       >
         <div className="flex w-full border-white/10">
-          <button
-            className="p-1 hover:bg-white/25 transition-colors rounded"
-            onClick={() => setOpen(false)}
+          <IconButton variant="ghost" size="md" onClick={() => setOpen(false)}>
+            <Icons.X className="text-[21px]" />
+          </IconButton>
+
+          <a
+            target="_blank"
+            href="https://github.com/mhmmdamiwn/JsNavigator"
+            className="flex items-center justify-end gap-2 w-full"
           >
-            <Icons.X className="text-[21px] text-white" />
-          </button>
+            <IconButton size="sm" variant="outlined">
+              <Icons.Github className="text-[16px] h-[16px]" />
+            </IconButton>
+          </a>
         </div>
 
         <form
@@ -294,11 +332,20 @@ function RequestPanel() {
 
             setLoadingReq(true);
 
+            //instead of faking a req we will send a req and handle the front-end based on it
+
             await new Promise((resolve) => {
               setTimeout(() => resolve(), 1000);
             });
 
-            setBackendFiles(["1", "9", "5"]);
+            setBackendFiles(["1.js", "2.js"]);
+
+            setResponse({
+              data: {
+                test: "test",
+              },
+              code: 204,
+            });
 
             setLoadingReq(false);
           }}
@@ -323,10 +370,8 @@ function RequestPanel() {
 
           <button
             className={cn(
-              "flex transition-colors items-center justify-center text-white text-[14px] w-[100px] h-[38px] font-semibold leading-none rounded",
-              loadingReq
-                ? "bg-violet-500/50"
-                : "bg-violet-500 hover:bg-violet-500/90"
+              "flex transition-all items-center justify-center text-white text-[14px] w-[100px] h-[38px] font-semibold leading-none rounded",
+              loadingReq ? "bg-primary/50" : "bg-primary hover:bg-primary/90"
             )}
           >
             {loadingReq ? (
@@ -337,21 +382,56 @@ function RequestPanel() {
           </button>
         </form>
 
-        <TabRoot defaultTab={tabs[0]?.title} className="mt-3">
-          <TabTriggerWrapper>
-            {tabs.map(({ title }) => (
-              <TabTrigger tabIndex={title}>{title}</TabTrigger>
-            ))}
-          </TabTriggerWrapper>
+        <PanelGroup direction="vertical">
+          <Panel className="relative">
+            <TabRoot
+              defaultTab={reqTabs[0]?.title}
+              className="h-full mt-3 overflow-auto pb-5"
+            >
+              <TabTriggerWrapper>
+                {reqTabs.map(({ title }) => (
+                  <TabTrigger tabIndex={title}>{title}</TabTrigger>
+                ))}
+              </TabTriggerWrapper>
 
-          <div>
-            {tabs?.map(({ Component, props, title }) => (
-              <TabContent tabIndex={title}>
-                <Component {...props} />
-              </TabContent>
-            ))}
-          </div>
-        </TabRoot>
+              <div>
+                {reqTabs?.map(({ Component, props, title }) => (
+                  <TabContent tabIndex={title}>
+                    <Component {...props} />
+                  </TabContent>
+                ))}
+              </div>
+            </TabRoot>
+          </Panel>
+
+          {Object.values(response).every((v) => v !== null) ? (
+            <>
+              <PanelResizeHandle className="h-0.5 my-0.5 hover:my-[1px] hover:py-0.5 bg-white/25 hover:bg-white/40 active:bg-primary" />
+              <Panel className="relative">
+                <TabRoot
+                  defaultTab={resTabs[0]?.title}
+                  className="mt-3 h-full overflow-auto pb-4"
+                >
+                  <TabTriggerWrapper>
+                    {resTabs.map(({ title }) => (
+                      <TabTrigger tabIndex={title}>{title}</TabTrigger>
+                    ))}
+                  </TabTriggerWrapper>
+
+                  <div>
+                    {resTabs?.map(({ Component, props, title }) => (
+                      <TabContent tabIndex={title}>
+                        <Component {...props} />
+                      </TabContent>
+                    ))}
+                  </div>
+                </TabRoot>
+              </Panel>
+            </>
+          ) : (
+            <></>
+          )}
+        </PanelGroup>
       </div>
 
       <div
