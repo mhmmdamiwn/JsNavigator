@@ -1,24 +1,27 @@
 import React from "react";
 import { cn } from "../../helpers/cn";
 import { useMemo } from "preact/hooks";
-import { isError, isSuccess } from "../../helpers/utlis";
+import { isError, isInternalError, isSuccess } from "../../helpers/utlis";
 
 function ResponseAsTable({ data, code }) {
   const status = useMemo(() => {
     if (isSuccess(code)) return "success";
     if (isError(code)) return "error";
+    if (isInternalError(code)) return "warning";
     return "idle";
   }, [code]);
 
   const backgrounds = {
     success: "bg-success/25",
     error: "bg-error/25",
+    warning: "bg-warning/25",
     idle: "bg-white/10",
   };
 
   const texts = {
     success: "text-success",
     error: "text-error",
+    warning: "text-warning",
     idle: "text-white",
   };
 
@@ -43,27 +46,28 @@ function ResponseAsTable({ data, code }) {
           {code}
         </div>
 
-        {Object.entries(data).map((entry, index) => (
-          <div className="flex w-full relative gap-[1px] group" key={index}>
-            {/* <div className="w-[44px] flex items-center justify-center bg-neutral-800 flex-shrink-0" /> */}
+        {data &&
+          Object.entries(data)?.map((entry, index) => (
+            <div className="flex w-full relative gap-[1px] group" key={index}>
+              {/* <div className="w-[44px] flex items-center justify-center bg-neutral-800 flex-shrink-0" /> */}
 
-            <div className="flex items-center justify-start w-full relative gap-[1px]">
-              {entry.map((value, idx) => {
-                return (
-                  <input
-                    readOnly
-                    className="text-[12px] text-white w-[50%] p-2 outline-none bg-neutral-800"
-                    value={value}
-                    onChange={(e) => {
-                      return;
-                    }}
-                    key={idx}
-                  />
-                );
-              })}
+              <div className="flex items-center justify-start w-full relative gap-[1px]">
+                {entry.map((value, idx) => {
+                  return (
+                    <input
+                      readOnly
+                      className="text-[12px] text-white w-[50%] p-2 outline-none bg-neutral-800"
+                      value={value}
+                      onChange={(e) => {
+                        return;
+                      }}
+                      key={idx}
+                    />
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </>
   );
