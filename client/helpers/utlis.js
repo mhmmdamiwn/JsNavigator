@@ -5,3 +5,7 @@ export const isSuccess = (n) => {
 export const isError = (n) => {
   return n >= 400 && n < 500;
 };
+
+export const isInternalError = (n) => {
+  return n >= 500;
+};

@@ -1,12 +1,12 @@
 import { useRef, useEffect } from "preact/hooks";
 import { Network } from "vis-network";
-import { useBackendFilesContext } from "../context/backend-files-context";
+import { useExecutedFilesContext } from "../context/executed-files-context";
 import { findSharedEdges } from "../helpers/find-shared-edges";
 
 function Visualize({ files }) {
   const container = useRef(null);
 
-  const { backendFiles } = useBackendFilesContext();
+  const { executedFiles } = useExecutedFilesContext();
 
   useEffect(() => {
     if (!container.current) return;
@@ -89,15 +89,15 @@ function Visualize({ files }) {
 
     const network = new Network(container.current, data, options);
 
-    for (let i = 0; i < backendFiles.length; i++) {
+    for (let i = 0; i < executedFiles.length; i++) {
       network.body.data.nodes.update({
-        id: backendFiles[i],
+        id: executedFiles[i],
         color: { background: "#8133F1" },
         font: { color: "white", background: "#353535" },
       });
     }
 
-    const backendEdges = findSharedEdges(network, backendFiles);
+    const backendEdges = findSharedEdges(network, executedFiles);
 
     for (let i = 0; i < backendEdges.length; i++) {
       network.body.data.edges.update({
@@ -140,7 +140,7 @@ function Visualize({ files }) {
         network.body.data.nodes.update({
           id: nodeId,
           color: {
-            background: backendFiles.includes(nodeId) ? "#6C31C6" : "#ffff00",
+            background: executedFiles.includes(nodeId) ? "#6C31C6" : "#ffff00",
           },
           font: { color: "white", background: "#615f5e" },
         });
@@ -170,7 +170,7 @@ function Visualize({ files }) {
       network.body.data.nodes.update({
         id: hoveredNodeId,
         color: {
-          background: backendFiles.includes(hoveredNodeId)
+          background: executedFiles.includes(hoveredNodeId)
             ? "#8133F1"
             : "#eb6734",
         },
@@ -182,7 +182,7 @@ function Visualize({ files }) {
         network.body.data.nodes.update({
           id: nodeId,
           color: {
-            background: backendFiles.includes(nodeId) ? "#8133F1" : "#eb6734",
+            background: executedFiles.includes(nodeId) ? "#8133F1" : "#eb6734",
           },
           font: { color: "white", background: "black", size: 14 },
         });
@@ -203,7 +203,7 @@ function Visualize({ files }) {
     return () => {
       network.destroy();
     };
-  }, [container, backendFiles]);
+  }, [container, executedFiles]);
 
   return <div className="w-full h-full bg-[#212121]" ref={container} />;
 }

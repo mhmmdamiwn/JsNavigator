@@ -1,7 +1,7 @@
 import { useEffect, useState } from "preact/hooks";
 import RequestPanel from "./components/request-panel";
 import Visualize from "./components/visualize";
-import { BackendFilesContextProvider } from "./context/backend-files-context";
+import { ExecutedFilesContextProvider } from "./context/executed-files-context";
 import ProjectInformation from "./components/project-information";
 import Loading from "./components/loading";
 import { Suspense } from "preact/compat";
@@ -13,7 +13,7 @@ function App() {
     port: "",
   });
 
-  const [files, setFiles] = useState(null);
+  const [files, setFiles] = useState();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -50,12 +50,12 @@ function App() {
     return <ProjectInformation handleChanges={handleInformationChanges} />;
 
   return (
-    <BackendFilesContextProvider>
+    <ExecutedFilesContextProvider>
       <Visualize files={files} />
       <Suspense fallback={<p>loading</p>}>
         <RequestPanel port={information?.port} />
       </Suspense>
-    </BackendFilesContextProvider>
+    </ExecutedFilesContextProvider>
   );
 }
 

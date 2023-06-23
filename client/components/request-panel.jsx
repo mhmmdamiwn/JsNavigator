@@ -1,5 +1,5 @@
 import { useEffect, useReducer, useRef, useState } from "preact/hooks";
-import { useBackendFilesContext } from "../context/backend-files-context";
+import { useExecutedFilesContext } from "../context/executed-files-context";
 import { cn } from "../helpers/cn";
 import RequestInput from "./request-input";
 import { Icons } from "./icons";
@@ -11,6 +11,7 @@ import IconButton from "./ui/icon-button";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import ResponseAsJson from "./response/response-as-json";
 import ResponseAsTable from "./response/response-as-table";
+import { turnArrayToObject } from "../helpers/turn-array-to-object";
 
 function RequestPanel({ port }) {
   const [focus, setFocus] = useState({
@@ -241,7 +242,7 @@ function RequestPanel({ port }) {
   });
   const [open, setOpen] = useState(false);
   const [loadingReq, setLoadingReq] = useState(false);
-  const { setBackendFiles } = useBackendFilesContext();
+  const { setExecutedFiles } = useExecutedFilesContext();
 
   useEffect(() => {
     if (open) document.body.classList.add("overflow-hidden");
@@ -330,24 +331,57 @@ function RequestPanel({ port }) {
           onSubmit={async (e) => {
             e.preventDefault();
 
+            if (!request.method) return;
+
             setLoadingReq(true);
 
             //instead of faking a req we will send a req and handle the front-end based on it
+            try {
+              const obj = {
+                data: "",
+                code: "",
+              };
 
-            await new Promise((resolve) => {
-              setTimeout(() => resolve(), 1000);
-            });
+              const user_res = await fetch(request.url, {
+                method: request.method,
+                headers: turnArrayToObject(request.headers, "key", "value"),
+              });
 
-            setBackendFiles(["1.js", "2.js"]);
+              obj.code = user_res.status;
 
-            setResponse({
-              data: {
-                test: "test",
-              },
-              code: 204,
-            });
+              if (!user_res.ok) {
+                return setResponse(obj);
+              }
 
-            setLoadingReq(false);
+              const user_data = await user_res.json();
+              obj.data = user_data;
+
+              const postman_res = await fetch(
+                "http://localhost:8585/jsnavigator/postman"
+              );
+
+              if (!postman_res.ok) {
+                // TODO
+                // show a model for acknowledging user about failed attempt to get executed files
+                setResponse(obj);
+                return;
+              }
+
+              const postman_data = await postman_res.json();
+
+              setExecutedFiles(postman_data?.executed ?? []);
+              setResponse(obj);
+
+              setLoadingReq(false);
+            } catch (err) {
+              setLoadingReq(false);
+              setResponse({
+                data: {
+                  error: err.message,
+                },
+                code: 500,
+              });
+            }
           }}
           className="flex items-center justify-center mt-4 relative gap-4 z-[10]"
         >
@@ -404,7 +438,7 @@ function RequestPanel({ port }) {
             </TabRoot>
           </Panel>
 
-          {Object.values(response).every((v) => v !== null) ? (
+          {Object.values(response).some((v) => v !== null) ? (
             <>
               <PanelResizeHandle className="h-0.5 my-0.5 hover:my-[1px] hover:py-0.5 bg-white/25 hover:bg-white/40 active:bg-primary" />
               <Panel className="relative">
