@@ -1,24 +1,27 @@
 import React from "react";
 import { cn } from "../../helpers/cn";
 import { useMemo } from "preact/hooks";
-import { isError, isSuccess } from "../../helpers/utlis";
+import { isError, isInternalError, isSuccess } from "../../helpers/utlis";
 
 function ResponseAsJson({ data, code }) {
   const status = useMemo(() => {
     if (isSuccess(code)) return "success";
     if (isError(code)) return "error";
+    if (isInternalError(code)) return "warning";
     return "idle";
   }, [code]);
 
   const borders = {
     success: "border-success/25",
     error: "border-error/25",
+    warning: "border-warning/25",
     idle: "border-white/10",
   };
 
   const texts = {
     success: "text-success",
     error: "text-error",
+    warning: "text-warning",
     idle: "text-white",
   };
 
