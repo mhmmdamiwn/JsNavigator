@@ -12,6 +12,7 @@ import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import ResponseAsJson from "./response/response-as-json";
 import ResponseAsTable from "./response/response-as-table";
 import { turnArrayToObject } from "../helpers/turn-array-to-object";
+import { parseResponse } from "../helpers/parse-response";
 
 function RequestPanel({ port }) {
   const [focus, setFocus] = useState({
@@ -281,7 +282,7 @@ function RequestPanel({ port }) {
         data: response.data,
         code: response.code,
       },
-      show: typeof response.data !== "string",
+      show: typeof response.data === "object",
     },
     {
       title: "JSON",
@@ -313,7 +314,7 @@ function RequestPanel({ port }) {
           open ? "" : "-mr-[100%]"
         )}
       >
-        <div className="flex w-full border-white/10">
+        <div className="flex items-center justify-between w-full border-white/10">
           <IconButton variant="ghost" size="md" onClick={() => setOpen(false)}>
             <Icons.X className="text-[21px]" />
           </IconButton>
@@ -321,7 +322,7 @@ function RequestPanel({ port }) {
           <a
             target="_blank"
             href="https://github.com/mhmmdamiwn/JsNavigator"
-            className="flex items-center justify-end gap-2 w-full"
+            className="flex items-center justify-end gap-2 ml-auto w-full"
           >
             <IconButton size="sm" variant="outlined">
               <Icons.Github className="text-[16px] h-[16px]" />
@@ -354,7 +355,7 @@ function RequestPanel({ port }) {
                 return setResponse(obj);
               }
 
-              const user_data = await user_res.text();
+              const user_data = await parseResponse(user_res);
               obj.data = user_data;
 
               const postman_res = await fetch(
@@ -369,7 +370,6 @@ function RequestPanel({ port }) {
               }
 
               const postman_data = await postman_res.json();
-              console.log(postman_data);
 
               setExecutedFiles(postman_data?.executed ?? []);
               setResponse(obj);
@@ -440,7 +440,8 @@ function RequestPanel({ port }) {
             </TabRoot>
           </Panel>
 
-          {Object.values(response).some((v) => v !== null) ? (
+          {Object.values(response).some((v) => v !== null) &&
+          resTabs.some(({ show }) => show) ? (
             <>
               <PanelResizeHandle className="h-0.5 my-0.5 hover:my-[1px] hover:py-0.5 bg-white/25 hover:bg-white/40 active:bg-primary" />
               <Panel className="relative">
