@@ -13,7 +13,7 @@ function App() {
     port: "",
   });
 
-  const [files, setFiles] = useState();
+  const [files, setFiles] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
