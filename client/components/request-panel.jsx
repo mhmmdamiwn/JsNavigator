@@ -281,6 +281,7 @@ function RequestPanel({ port }) {
         data: response.data,
         code: response.code,
       },
+      show: typeof response.data !== "string",
     },
     {
       title: "JSON",
@@ -289,6 +290,7 @@ function RequestPanel({ port }) {
         data: response.data,
         code: response.code,
       },
+      show: true,
     },
   ];
 
@@ -335,7 +337,6 @@ function RequestPanel({ port }) {
 
             setLoadingReq(true);
 
-            //instead of faking a req we will send a req and handle the front-end based on it
             try {
               const obj = {
                 data: "",
@@ -353,7 +354,7 @@ function RequestPanel({ port }) {
                 return setResponse(obj);
               }
 
-              const user_data = await user_res.json();
+              const user_data = await user_res.text();
               obj.data = user_data;
 
               const postman_res = await fetch(
@@ -368,6 +369,7 @@ function RequestPanel({ port }) {
               }
 
               const postman_data = await postman_res.json();
+              console.log(postman_data);
 
               setExecutedFiles(postman_data?.executed ?? []);
               setResponse(obj);
@@ -443,21 +445,27 @@ function RequestPanel({ port }) {
               <PanelResizeHandle className="h-0.5 my-0.5 hover:my-[1px] hover:py-0.5 bg-white/25 hover:bg-white/40 active:bg-primary" />
               <Panel className="relative">
                 <TabRoot
-                  defaultTab={resTabs[0]?.title}
+                  defaultTab={resTabs.filter(({ show }) => show)[0]?.title}
                   className="mt-3 h-full overflow-auto pb-4"
                 >
                   <TabTriggerWrapper>
-                    {resTabs.map(({ title }) => (
-                      <TabTrigger tabIndex={title}>{title}</TabTrigger>
-                    ))}
+                    {resTabs.map(({ title, show }) => {
+                      if (!show) return <></>;
+
+                      return <TabTrigger tabIndex={title}>{title}</TabTrigger>;
+                    })}
                   </TabTriggerWrapper>
 
                   <div>
-                    {resTabs?.map(({ Component, props, title }) => (
-                      <TabContent tabIndex={title}>
-                        <Component {...props} />
-                      </TabContent>
-                    ))}
+                    {resTabs?.map(({ Component, props, title, show }) => {
+                      if (!show) return;
+
+                      return (
+                        <TabContent tabIndex={title}>
+                          <Component {...props} />
+                        </TabContent>
+                      );
+                    })}
                   </div>
                 </TabRoot>
               </Panel>
