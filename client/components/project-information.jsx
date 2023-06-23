@@ -5,7 +5,7 @@ import Select from "./ui/select";
 import { Icons } from "./icons";
 
 function ProjectInformation({ handleChanges }) {
-  const NumberPattern = new RegExp("[0-9]");
+  const NumberPattern = new RegExp("^[0-9]+$");
 
   const [entry, setEntry] = useState("");
   const [importMethod, setImportMethod] = useState("");
