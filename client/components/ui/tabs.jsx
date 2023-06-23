@@ -6,12 +6,16 @@ import { memo } from "preact/compat";
 const TabsContext = createContext();
 
 export function TabRoot({ children, defaultTab, ...props }) {
-  const [current, setCurrent] = useState(defaultTab);
+  const [current, setCurrent] = useState(null);
   const [linePosition, setLinePosition] = useState({
     left: null,
     width: null,
     tabIndex: null,
   });
+
+  useEffect(() => {
+    setCurrent(defaultTab);
+  }, [defaultTab]);
 
   return (
     <div {...props}>
