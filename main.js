@@ -3,8 +3,6 @@ const logReader = require("./logReader");
 const getFilesInDependencyOrder = require("./GetFileInDependencyOrder");
 const findExecutedPath = require('./findExecutedPath')
 const app = require('express')()
-
-
 let dependencyOrder;
 
 app.get('/jsnavigator', (req, res) => {
@@ -15,7 +13,6 @@ app.get('/jsnavigator', (req, res) => {
   res.set("Access-Control-Allow-Credentials", "true");
   res.set("Content-Type", "application/json");
   res.send(JSON.stringify(dependencyOrder));
-
 })
 
 app.get('/jsnavigator/postman', (req, res) => {

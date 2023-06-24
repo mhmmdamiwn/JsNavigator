@@ -13,4 +13,4 @@ function JsNavigator(){
     };
    
 }
-module.exports = {JsNavigator};
+module.exports = JsNavigator;
