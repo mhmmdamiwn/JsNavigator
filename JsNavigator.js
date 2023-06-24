@@ -2,7 +2,7 @@
 const fs = require('fs')
 var Module = require('module');
 var originalRequire = Module.prototype.require;
-function JsNavigator(){
+function JsNavigator(startFile){
    Module.prototype.require = function(arg){
     const resolvedPath = require.resolve(arg);
     const fileContent = fs.readFileSync(process.cwd()+'/node_modules/js-navigator/Logs.txt', 'utf-8');
