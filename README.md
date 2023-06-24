@@ -19,8 +19,10 @@ import * as JsNavigator from "js-navigator"; // using import
 JsNavigator(__filename);
 ```
 3. Run your project
-4. Go to your browser and open localhost:8584 
-
+4. Run this command in your terminal :
+```
+npm run dev 
+```
 # License
 JsNavigator is licensed under the ISC License. Feel free to use, modify and distribute it.
 
