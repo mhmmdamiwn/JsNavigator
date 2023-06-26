@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const pkgPath = path.resolve(`${process.cwd()}/package.json`);
+const pkgPath = path.resolve('../../package.json');
 const pkg = require(pkgPath);
 console.log('path',pkgPath)
 console.log('pkg',pkg)
