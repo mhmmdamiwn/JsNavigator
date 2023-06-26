@@ -1,3 +1,5 @@
+import { h, Fragment } from "preact";
+
 import { useEffect, useReducer, useRef, useState } from "preact/hooks";
 import { useExecutedFilesContext } from "../context/executed-files-context";
 import { cn } from "../helpers/cn";

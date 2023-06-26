@@ -1,5 +1,5 @@
 {
-  "name": "js-navigator",
+  "name": "@1stmmd/js-navigator",
   "version": "2.0.3",
   "description": "watch your project files and their dependencies, make a request to your backend application and watch how your files interact with that request",
   "main": "JsNavigator.js",
@@ -30,5 +30,8 @@
     "tailwindcss": "^3.3.2",
     "vis-network": "^9.1.6",
     "vite": "^4.3.9"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
