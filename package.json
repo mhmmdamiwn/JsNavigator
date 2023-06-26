@@ -5,7 +5,7 @@
   "main": "JsNavigator.js",
   "scripts": {
     "dev": "vite && node main.js",
-    "postinstall": "node  add-script"
+    "postinstall": "node ./node_modules/js-navigator/add-script"
   },
   "repository": {
     "type": "git",
