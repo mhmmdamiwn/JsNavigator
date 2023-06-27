@@ -4,10 +4,12 @@ const getFilesInDependencyOrder = require("./GetFileInDependencyOrder");
 const findExecutedPath = require('./findExecutedPath')
 const app = require('express')()
 let dependencyOrder;
-
+let mainDirectoryPath = process.cwd().split("/")
+mainDirectoryPath.splice(-2,2)
+mainDirectoryPath = mainDirectoryPath.join("/")
 app.get('/jsnavigator', (req, res) => {
   const queryParams = req.query;
-  dependencyOrder = getFilesInDependencyOrder(`${process.cwd()}/${queryParams.entry}`, queryParams.importMethod);
+  dependencyOrder = getFilesInDependencyOrder(`${mainDirectoryPath}/${queryParams.entry}`, queryParams.importMethod,mainDirectoryPath); 
   res.set("Access-Control-Allow-Origin", "*");
   res.set("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
   res.set("Access-Control-Allow-Credentials", "true");
