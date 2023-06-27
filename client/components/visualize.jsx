@@ -1,3 +1,5 @@
+import { h, Fragment } from "preact";
+
 import { useRef, useEffect } from "preact/hooks";
 import { Network } from "vis-network";
 import { useExecutedFilesContext } from "../context/executed-files-context";

@@ -1,18 +1,24 @@
+import { h, Fragment } from "preact";
+
 import { useEffect, useReducer, useRef, useState } from "preact/hooks";
+import { memo } from "preact/compat";
+
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+
 import { useExecutedFilesContext } from "../context/executed-files-context";
+
 import { cn } from "../helpers/cn";
+import { turnArrayToObject } from "../helpers/turn-array-to-object";
+import { parseResponse } from "../helpers/parse-response";
+
 import RequestInput from "./request-input";
 import { Icons } from "./icons";
 import QueryParams from "./query-params";
 import RequestHeaders from "./request-headers";
 import { TabContent, TabRoot, TabTrigger, TabTriggerWrapper } from "./ui/tabs";
-import { memo } from "preact/compat";
 import IconButton from "./ui/icon-button";
-import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import ResponseAsJson from "./response/response-as-json";
 import ResponseAsTable from "./response/response-as-table";
-import { turnArrayToObject } from "../helpers/turn-array-to-object";
-import { parseResponse } from "../helpers/parse-response";
 
 function RequestPanel({ port }) {
   const [focus, setFocus] = useState({

@@ -1,4 +1,5 @@
-import React from "react";
+import { h, Fragment } from "preact";
+
 import { cn } from "../../helpers/cn";
 import { useMemo } from "preact/hooks";
 import { isError, isInternalError, isSuccess } from "../../helpers/utlis";

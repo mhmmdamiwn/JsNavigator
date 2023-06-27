@@ -2,6 +2,8 @@ export function findSharedEdges(network, nodes) {
   const sharedEdges = [];
 
   for (let i = 0; i < nodes.length; ++i) {
+    if (!nodes[i]) break;
+
     const edges = network.getConnectedEdges(nodes[i]);
 
     for (let j = 0; j < edges.length; ++j) {

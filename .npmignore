@@ -1,0 +1,8 @@
+node_modules
+client
+.gitignore
+/index.html
+package-lock.json
+tailwind.config.js
+vite.config.js
+postcss.config.js
