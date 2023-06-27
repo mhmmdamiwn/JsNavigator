@@ -1,10 +1,13 @@
 {
   "name": "js-navigator",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "watch your project files and their dependencies, make a request to your backend application and watch how your files interact with that request",
   "main": "JsNavigator.js",
   "scripts": {
-    "dev": "vite && node main.js",
+    "build": "vite build",
+    "start-backend": "node main.js",
+    "start-frontend": "(cd dist && http-server)",
+    "js-nav": "concurrently \"npm:start-*\"",
     "postinstall": "node add-script"
   },
   "repository": {
@@ -18,11 +21,15 @@
   },
   "homepage": "https://github.com/mhmmdamiwn/JsNavigator#readme",
   "dependencies": {
+    "concurrently": "^8.2.0",
+    "express": "^4.18.2",
+    "http-server": "^14.1.1",
+    "open": "^8.4.0"
+  },
+  "devDependencies": {
     "@preact/preset-vite": "^2.5.0",
     "autoprefixer": "^10.4.14",
     "clsx": "^1.2.1",
-    "express": "^4.18.2",
-    "open": "^8.4.0",
     "postcss": "^8.4.24",
     "preact": "^10.15.1",
     "react-icons": "^4.9.0",
