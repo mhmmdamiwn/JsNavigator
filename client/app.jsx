@@ -1,3 +1,5 @@
+import { h, Fragment } from "preact";
+
 import { useEffect, useState } from "preact/hooks";
 import RequestPanel from "./components/request-panel";
 import Visualize from "./components/visualize";

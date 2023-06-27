@@ -7,7 +7,4 @@ export default defineConfig({
     react: "preact/compat",
     "react-dom": "preact/compat",
   },
-  server:{
-    port:8584
-  }
 });

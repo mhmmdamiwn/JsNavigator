@@ -1,3 +1,5 @@
+import { h, Fragment } from "preact";
+
 import "preact/devtools";
 import { render } from "preact";
 import "./index.css";
