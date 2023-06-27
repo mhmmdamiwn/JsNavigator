@@ -21,7 +21,7 @@ JsNavigator(__filename);
 3. Run your project
 4. Run this command in your terminal :
 ```
-npm run dev 
+npm run js-nav
 ```
 # License
 JsNavigator is licensed under the ISC License. Feel free to use, modify and distribute it.
