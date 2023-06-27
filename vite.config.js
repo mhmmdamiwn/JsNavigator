@@ -7,11 +7,4 @@ export default defineConfig({
     react: "preact/compat",
     "react-dom": "preact/compat",
   },
-  esbuild: {
-    jsxFactory: "h",
-    jsxFragment: "Fragment",
-  },
-  server: {
-    port: 8584,
-  },
 });
