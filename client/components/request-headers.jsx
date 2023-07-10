@@ -1,5 +1,3 @@
-import { h, Fragment } from "preact";
-
 import { cn } from "../helpers/cn";
 import { Icons } from "./icons";
 import { memo } from "preact/compat";

@@ -1,13 +1,16 @@
 // Import the required modules
-const fs = require('fs');
+const fs = require("fs");
 const path = require("path");
 const buildDependencyGraph = require("./buildDependencyGraph");
 const removePrefix = require("./removePrefix");
 const cleanDependency = require("./cleanDependency");
 
 // Define a function that retrieves the files in dependency order
-function getFilesInDependencyOrder(rootFilePath, userImport,mainDirectoryPath) {
-
+function getFilesInDependencyOrder(
+  rootFilePath,
+  userImport,
+  mainDirectoryPath
+) {
   // Create a map to store the contents of each file
   const fileContentsMap = new Map();
 
@@ -22,7 +25,6 @@ function getFilesInDependencyOrder(rootFilePath, userImport,mainDirectoryPath) {
 
   // Define a function to traverse the dependencies of a file
   function traverseDependencies(filePath) {
-
     // If the file has already been visited, return
     if (visitedFiles.has(filePath)) {
       return;
@@ -32,11 +34,15 @@ function getFilesInDependencyOrder(rootFilePath, userImport,mainDirectoryPath) {
     visitedFiles.add(filePath);
 
     // Read the file contents and add them to the file contents map
-    const fileContents = fs.readFileSync(filePath, 'utf-8');
+    const fileContents = fs.readFileSync(filePath, "utf-8");
     fileContentsMap.set(filePath, fileContents);
 
     // Build the dependency graph for the file
-    const dependencies = buildDependencyGraph(filePath, fileContents, userImport);
+    const dependencies = buildDependencyGraph(
+      filePath,
+      fileContents,
+      userImport
+    );
 
     // Add the dependencies to the dependency graph
     dependencyGraph[filePath] = dependencies;
@@ -48,7 +54,7 @@ function getFilesInDependencyOrder(rootFilePath, userImport,mainDirectoryPath) {
         if (!visitedFiles.has(dp)) {
           traverseQueue.push(dp);
         }
-      })
+      });
     });
   }
 
@@ -93,7 +99,10 @@ function getFilesInDependencyOrder(rootFilePath, userImport,mainDirectoryPath) {
   });
 
   // Remove the prefixes from the dependency graph
-  const cleanPrefixDependencyGraph = removePrefix(dependencyGraph,mainDirectoryPath);
+  const cleanPrefixDependencyGraph = removePrefix(
+    dependencyGraph,
+    mainDirectoryPath
+  );
 
   // Clean up the dependency graph
   const cleanDependencyGraph = cleanDependency(cleanPrefixDependencyGraph);

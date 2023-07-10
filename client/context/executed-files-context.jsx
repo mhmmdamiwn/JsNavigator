@@ -1,5 +1,3 @@
-import { h, Fragment } from "preact";
-
 import { createContext } from "preact";
 import { useContext, useState } from "preact/hooks";
 

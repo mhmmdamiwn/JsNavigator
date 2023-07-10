@@ -1,5 +1,3 @@
-import { h, Fragment } from "preact";
-
 import { useEffect, useReducer, useRef, useState } from "preact/hooks";
 import { memo } from "preact/compat";
 

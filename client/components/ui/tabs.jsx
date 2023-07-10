@@ -1,5 +1,3 @@
-import { h, Fragment } from "preact";
-
 import { createContext } from "preact";
 import { useContext, useEffect, useState } from "preact/hooks";
 import { cn } from "../../helpers/cn";
