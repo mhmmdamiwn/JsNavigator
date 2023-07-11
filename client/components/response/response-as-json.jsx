@@ -1,5 +1,3 @@
-import { h, Fragment } from "preact";
-
 import React from "react";
 import { cn } from "../../helpers/cn";
 import { useMemo } from "preact/hooks";

@@ -18,9 +18,10 @@
 
 :root {
   --primary: 139 92 246;
-  --background: 38 38 38;
+  --background: 35 35 35;
+  --foreground: 255 255 255;
   --text: 255 255 255;
-  --border: 215 215 215;
+  --border: 85 85 85;
   --error: 241 38 38;
   --success: 38 241 58;
   --warning: 249 146 52;

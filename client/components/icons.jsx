@@ -1,5 +1,3 @@
-import { h, Fragment } from "preact";
-
 import {
   LuCheck,
   LuChevronDown,

@@ -1,5 +1,3 @@
-import { h, Fragment } from "preact";
-
 import { Icons } from "./icons";
 
 function Loading() {

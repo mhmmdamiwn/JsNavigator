@@ -4,6 +4,9 @@
   "description": "watch your project files and their dependencies, make a request to your backend application and watch how your files interact with that request",
   "main": "JsNavigator.js",
   "scripts": {
+    "test-frontend": "vite",
+    "test-backend": "node main.js",
+    "dev": "concurrently \"npm:test-*\"",
     "build": "vite build",
     "start-backend": "node main.js",
     "start-frontend": "(cd dist && http-server)",

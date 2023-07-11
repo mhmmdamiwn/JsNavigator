@@ -5,17 +5,16 @@ module.exports = {
     extend: {
       colors: {
         primary: "rgb(var(--primary) / <alpha-value>)",
-        "muted-primary": "",
-        background: "",
-        "muted-background": "",
-        foreground: "",
-        "muted-foreground": "",
-        border: "",
-        "muted-border": "",
+        background: "rgb(var(--background) / <alpha-value>)",
+        foreground: "rgb(var(--foreground) / <alpha-value>)",
+        border: "rgb(var(--border) / <alpha-value>)",
         error: "rgb(var(--error) / <alpha-value>)",
         success: "rgb(var(--success) / <alpha-value>)",
         warning: "rgb(var(--warning) / <alpha-value>)",
       },
+    },
+    borderRadius: {
+      DEFAULT: "8px",
     },
   },
   plugins: [],

@@ -1,5 +1,3 @@
-import { h, Fragment } from "preact";
-
 import { useRef, useEffect } from "preact/hooks";
 import { Network } from "vis-network";
 import { useExecutedFilesContext } from "../context/executed-files-context";
@@ -207,7 +205,7 @@ function Visualize({ files }) {
     };
   }, [container, executedFiles]);
 
-  return <div className="w-full h-full bg-[#212121]" ref={container} />;
+  return <div className="w-full h-full bg-background" ref={container} />;
 }
 
 export default Visualize;

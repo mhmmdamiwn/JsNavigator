@@ -1,5 +1,3 @@
-import { h, Fragment } from "preact";
-
 import { useEffect, useRef, useState } from "preact/hooks";
 import { cn } from "../helpers/cn";
 import { Icons } from "./icons";
@@ -62,12 +60,12 @@ const RequestInput = ({ method, setMethod, url, setUrl }) => {
 
   return (
     <div
-      className="flex items-center justify-start w-full flex-shrink bg-transparent border border-white/25 rounded relative focus-within:shadow-[0_0_0_1px] focus-within:shadow-white/10
+      className="flex items-center justify-start w-full flex-shrink bg-transparent border border-border rounded relative focus-within:shadow-[0_0_0_2px] focus-within:shadow-foreground/10
     "
     >
       <div
         ref={methodInputContainer}
-        className="flex items-center justify-center flex-shrink-0 py-2.5 px-2.5"
+        className="flex items-center justify-center flex-shrink-0 py-2.5 px-3"
       >
         <input
           onFocus={() => {
@@ -76,7 +74,7 @@ const RequestInput = ({ method, setMethod, url, setUrl }) => {
           placeholder="METHOD"
           className={cn(
             "text-[12px] font-medium leading-none outline-none bg-transparent w-[75px]",
-            methodColor ? methodColor : "text-white"
+            methodColor ? methodColor : "text-foreground"
           )}
           value={method}
           // in preact we have to use onInput instead of onChange
@@ -91,11 +89,11 @@ const RequestInput = ({ method, setMethod, url, setUrl }) => {
             setShowSuggestions((prev) => !prev);
           }}
         >
-          <Icons.ChevronDown className="text-white/75 text-[16px]" />
+          <Icons.ChevronDown className="text-foreground/75 text-[16px]" />
         </button>
       </div>
 
-      <span className="inline h-[20px] bg-white/25 w-[1px]" />
+      <span className="inline h-[20px] bg-border w-[1px]" />
 
       <div className="flex items-center justify-center w-full flex-shrink pl-2">
         <input
@@ -117,7 +115,7 @@ const RequestInput = ({ method, setMethod, url, setUrl }) => {
       >
         <div
           ref={ref}
-          className="flex flex-col w-[130px] bg-neutral-800 border border-white/25 p-2 rounded shadow-xl "
+          className="flex flex-col w-[130px] bg-background border border-border p-2 rounded shadow-xl "
         >
           {(() => {
             const list =
@@ -135,9 +133,9 @@ const RequestInput = ({ method, setMethod, url, setUrl }) => {
                   setShowSuggestions(false);
                 }}
                 className={cn(
-                  "rounded hover:bg-white/10 cursor-pointer px-2 py-1.5 text-[12px] font-medium text-start",
+                  "rounded hover:bg-foreground/10 cursor-pointer px-2 py-1.5 text-[12px] font-medium text-start",
                   color,
-                  key === method ? "bg-white/10" : ""
+                  key === method ? "bg-foreground/10" : ""
                 )}
               >
                 {key}

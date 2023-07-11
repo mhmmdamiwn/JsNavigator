@@ -1,5 +1,3 @@
-import { h, Fragment } from "preact";
-
 import { useEffect, useReducer, useRef, useState } from "preact/hooks";
 import { memo } from "preact/compat";
 
@@ -16,7 +14,7 @@ import { Icons } from "./icons";
 import QueryParams from "./query-params";
 import RequestHeaders from "./request-headers";
 import { TabContent, TabRoot, TabTrigger, TabTriggerWrapper } from "./ui/tabs";
-import IconButton from "./ui/icon-button";
+import Button from "../components/ui/button";
 import ResponseAsJson from "./response/response-as-json";
 import ResponseAsTable from "./response/response-as-table";
 
@@ -303,36 +301,41 @@ function RequestPanel({ port }) {
 
   return (
     <>
-      <IconButton
-        size="md"
-        variant="ghost"
-        className="fixed top-4 right-4"
+      <Button
+        variant="text"
+        color="foreground"
+        className="p-2 fixed right-4 top-4"
         onClick={() => {
           setOpen(true);
         }}
       >
-        <Icons.PanelRightOpen className="text-[21px] text-white/75 hover:text-white transition-all" />
-      </IconButton>
+        <Icons.PanelRightOpen className="text-[21px]" />
+      </Button>
 
       <div
         className={cn(
-          "flex fixed flex-col p-4 overflow-auto w-[min(500px,100%)] h-full right-0 top-0 bg-neutral-800 border-l border-white/25 z-[15] transition-all",
+          "flex fixed flex-col p-4 overflow-auto w-[min(500px,100%)] h-full right-0 top-0 bg-background border-l border-border z-[15] transition-all",
           open ? "" : "-mr-[100%]"
         )}
       >
-        <div className="flex items-center justify-between w-full border-white/10">
-          <IconButton variant="ghost" size="md" onClick={() => setOpen(false)}>
+        <div className="flex items-center justify-between w-full border-border">
+          <Button
+            variant="text"
+            color="foreground"
+            className="p-2"
+            onClick={() => setOpen(false)}
+          >
             <Icons.X className="text-[21px]" />
-          </IconButton>
+          </Button>
 
           <a
             target="_blank"
             href="https://github.com/mhmmdamiwn/JsNavigator"
-            className="flex items-center justify-end gap-2 ml-auto w-full"
+            className="flex items-center justify-end gap-2"
           >
-            <IconButton size="sm" variant="outlined">
-              <Icons.Github className="text-[16px] h-[16px]" />
-            </IconButton>
+            <Button variant="text" color="foreground" className="p-2">
+              <Icons.Github className="text-[21px] h-[21px]" />
+            </Button>
           </a>
         </div>
 
@@ -410,18 +413,9 @@ function RequestPanel({ port }) {
             }}
           />
 
-          <button
-            className={cn(
-              "flex transition-all items-center justify-center text-white text-[14px] w-[100px] h-[38px] font-semibold leading-none rounded",
-              loadingReq ? "bg-primary/50" : "bg-primary hover:bg-primary/90"
-            )}
-          >
-            {loadingReq ? (
-              <Icons.Spinner className="animate-spin text-[18px]" />
-            ) : (
-              "Send"
-            )}
-          </button>
+          <Button loading={loadingReq} className="min-w-[90px]">
+            Send
+          </Button>
         </form>
 
         <PanelGroup direction="vertical">
@@ -486,7 +480,7 @@ function RequestPanel({ port }) {
       <div
         onClick={() => setOpen(false)}
         className={cn(
-          "flex fixed flex-col overflow-auto w-full h-full right-0 top-0 bg-black/40 transition-all",
+          "flex fixed flex-col overflow-auto w-full h-full right-0 top-0 bg-black/40 ",
           open ? "" : "-mr-[100%]"
         )}
       />

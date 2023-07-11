@@ -1,5 +1,3 @@
-import { h, Fragment } from "preact";
-
 import { useState } from "preact/hooks";
 import Button from "./ui/button";
 import Input from "./ui/input";
@@ -19,7 +17,7 @@ function ProjectInformation({ handleChanges }) {
   });
 
   return (
-    <main className="flex items-center justify-center w-full h-full bg-neutral-800 px-4">
+    <main className="flex items-center justify-center w-full h-full bg-background px-4">
       <form
         className="flex flex-col items-start w-[400px] gap-3 relative"
         onSubmit={(e) => {
@@ -75,7 +73,7 @@ function ProjectInformation({ handleChanges }) {
         />
 
         <Button className={"mt-1"} block>
-          SUBMIT
+          Submit
         </Button>
       </form>
     </main>
