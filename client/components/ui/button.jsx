@@ -1,22 +1,66 @@
 import { cn } from "../../helpers/cn";
+import { forwardRef } from "preact/compat";
+import { Icons } from "../icons";
 
-function Button({ size = "md", block = false, children, className, ...props }) {
-  const sizes = {
-    md: "h-[38px] text-[14px]",
-  };
-  return (
-    <button
-      className={cn(
-        "flex capitalize items-center justify-center bg-violet-500 hover:bg-violet-500/90 px-4 text-white rounded",
-        sizes[size],
-        block ? "w-full" : "",
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </button>
-  );
-}
+const Button = forwardRef(
+  (
+    {
+      className,
+      color = "primary",
+      variant = "contained",
+      block = false,
+      loading = false,
+      children,
+      onClick,
+      ...props
+    },
+    ref
+  ) => {
+    const variants = {
+      contained: {
+        shared: "",
+        primary: "bg-primary text-white",
+        foreground: "bg-foreground text-background",
+      },
+      outlined: {
+        shared: "border",
+        primary: "border-primary/10 hover:bg-primary/10 text-primary",
+        foreground:
+          "border-foreground/10 hover:bg-foreground/10 text-foreground",
+      },
+      text: {
+        shared: "",
+        primary: "text-primary/80 hover:bg-primary/10 hover:text-primary",
+        foreground:
+          "text-foreground/80 hover:bg-foreground/10 hover:text-foreground",
+      },
+    };
+
+    return (
+      <button
+        ref={ref}
+        className={cn(
+          "flex items-center justify-center rounded transition-all",
+          "py-2 px-4 text-[14px]",
+          block ? "w-full" : "",
+          loading ? "opacity-75 pointer-events-none" : "",
+          variants[variant]["shared"],
+          variants[variant][color],
+          className
+        )}
+        onClick={loading ? () => {} : onClick}
+        {...props}
+      >
+        {loading ? (
+          <Icons.Spinner className="text-[21px] animate-spin" />
+        ) : (
+          children
+        )}
+      </button>
+    );
+  }
+);
+
+Button.displayName = "@1stmmd/Button";
 
 export default Button;

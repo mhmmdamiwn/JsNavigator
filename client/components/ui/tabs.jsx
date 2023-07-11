@@ -76,8 +76,8 @@ export const TabTrigger = memo(
         className={cn(
           "text-[12px] py-1 transition-colors",
           tabIndex === current
-            ? "text-white font-medium"
-            : "text-white/75 hover:text-white font-normal",
+            ? "text-foreground font-medium"
+            : "text-foreground/75 hover:text-white font-normal",
           className
         )}
         onClick={() => {

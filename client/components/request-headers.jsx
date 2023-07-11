@@ -14,8 +14,10 @@ function RequestHeaders({ focus, setFocus, headers, changeRequest }) {
               <div className="w-[44px] flex items-center justify-center bg-neutral-800 flex-shrink-0">
                 <button
                   className={cn(
-                    "p-0.5 border border-white/25 rounded",
-                    object.disabled ? "bg-neutral-800" : "bg-white/50"
+                    "p-0.5 border border-border rounded-[4px]",
+                    object.disabled
+                      ? "bg-neutral-800"
+                      : "bg-foreground !border-foreground"
                   )}
                   onClick={(e) => {
                     changeRequest({
