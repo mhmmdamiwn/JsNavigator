@@ -6,7 +6,7 @@
  * @returns {object} - a dependency graph for the given file
  */
 const path = require('path');
-function buildDependencyGraph(filePath, fileContents, userImport) {
+function buildDependencyGraph(filePath, fileContents, userImport,mainDirectoryPath) {
   const dependencyGraph = {};
   let requireRegex;
 
@@ -39,7 +39,7 @@ function buildDependencyGraph(filePath, fileContents, userImport) {
 
       // If the dependency path is absolute, resolve it relative to the current working directory
       else {
-        const resolvedPath1 = `${process.cwd()}/` + match[2];
+        const resolvedPath1 = `${mainDirectoryPath}/` + match[2];
         let resolvedPath;
         try {
           resolvedPath = require.resolve(resolvedPath1);

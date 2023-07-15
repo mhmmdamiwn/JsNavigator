@@ -41,7 +41,8 @@ function getFilesInDependencyOrder(
     const dependencies = buildDependencyGraph(
       filePath,
       fileContents,
-      userImport
+      userImport,
+      mainDirectoryPath
     );
 
     // Add the dependencies to the dependency graph
