@@ -196,7 +196,7 @@ function Visualize({ files }) {
           color: backendEdges.includes(edgeId)
             ? "#AF8FDE"
             : { background: "black" },
-          font: { color: "white", background: "black", size: 14 },
+            font: { color: "white", background: "black", size: 14 },
         });
       }
     });
