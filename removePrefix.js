@@ -1,6 +1,10 @@
-function removePrefix(inputObject, mainDirectoryPath) {
+function removePrefix(
+  inputObject
+  // mainDirectoryPath
+) {
   const a = JSON.parse(
-    JSON.stringify(inputObject).replaceAll(mainDirectoryPath, "root")
+    JSON.stringify(inputObject)
+    // .replaceAll(mainDirectoryPath, "root")
   );
   return a;
 }
