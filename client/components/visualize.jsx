@@ -135,7 +135,7 @@ function Visualize({ files }) {
       });
 
       // Change font color and node color of connected nodes
-      for (var i = 0; i < connectedNodes.length; i++) {
+      for (let i = 0; i < connectedNodes.length; i++) {
         var nodeId = connectedNodes[i];
         network.body.data.nodes.update({
           id: nodeId,
@@ -147,15 +147,16 @@ function Visualize({ files }) {
       }
 
       // Change color of connected edges
-      for (var i = 0; i < connectedEdges.length; i++) {
+      for (let i = 0; i < connectedEdges.length; i++) {
         var edgeId = connectedEdges[i];
         network.body.data.edges.update({
           id: edgeId,
           color: backendEdges.includes(edgeId) ? "#AF8FDE" : "yellow",
         });
       }
-      var allNodes = network.body.nodes;
-      for (var nodeId in allNodes) {
+
+      const allNodes = network.body.nodes;
+      for (let nodeId in allNodes) {
         if (!connectedNodes.includes(nodeId) && nodeId !== hoveredNodeId) {
           network.body.data.nodes.update({ id: nodeId, font: { size: 0 } });
         }
@@ -196,8 +197,18 @@ function Visualize({ files }) {
           color: backendEdges.includes(edgeId)
             ? "#AF8FDE"
             : { background: "black" },
-            font: { color: "white", background: "black", size: 14 },
+          font: { color: "white", background: "black", size: 14 },
         });
+      }
+
+      const allNodes = network.body.nodes;
+      for (let nodeId in allNodes) {
+        if (!connectedNodes.includes(nodeId) && nodeId !== hoveredNodeId) {
+          network.body.data.nodes.update({
+            id: nodeId,
+            font: { color: "white", background: "black", size: 14 },
+          });
+        }
       }
     });
 
