@@ -1,6 +1,6 @@
 {
   "name": "js-navigator",
-  "version": "2.3.11",
+  "version": "2.3.12",
   "description": "watch your project files and their dependencies, make a request to your backend application and watch how your files interact with that request",
   "main": "JsNavigator.js",
   "scripts": {
