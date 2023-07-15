@@ -9,8 +9,7 @@ mainDirectoryPath = mainDirectoryPath.join("/");
 app.get("/jsnavigator", (req, res) => {
   const queryParams = req.query;
   dependencyOrder = getFilesInDependencyOrder(
-    `${queryParams.entry}`,
-    // `${mainDirectoryPath}/${queryParams.entry}`,
+    `${mainDirectoryPath}/${queryParams.entry}`,
     queryParams.importMethod,
     mainDirectoryPath
   );

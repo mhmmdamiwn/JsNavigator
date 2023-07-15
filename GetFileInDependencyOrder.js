@@ -8,8 +8,8 @@ const cleanDependency = require("./cleanDependency");
 // Define a function that retrieves the files in dependency order
 function getFilesInDependencyOrder(
   rootFilePath,
-  userImport
-  // mainDirectoryPath
+  userImport,
+  mainDirectoryPath
 ) {
   // Create a map to store the contents of each file
   const fileContentsMap = new Map();
@@ -100,8 +100,8 @@ function getFilesInDependencyOrder(
 
   // Remove the prefixes from the dependency graph
   const cleanPrefixDependencyGraph = removePrefix(
-    dependencyGraph
-    // mainDirectoryPath
+    dependencyGraph,
+    mainDirectoryPath
   );
 
   // Clean up the dependency graph
